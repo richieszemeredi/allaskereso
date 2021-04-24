@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <link rel="stylesheet" href="registrationstyle.css">
+
+</head>
+<body>
+<ul>
+    <li><a href="Main.html">Főoldal</a></li>
+    <li><a href="#jobs">Állások</a></li>
+    <li><a href="#inc">Cégek</a></li>
+    <li style="float:right"><a href="login.html"">Login</a></li>
+</ul>
+
+
+<form action="php" style="border:1px solid #ccc">
+    <div class="container">
+        <h1>Regisztráció</h1>
+        <p>Kérjük töltse ki az alábbiakat fiók létrehozásához!</p>
+        <hr>
+
+        <label for="email"><b>Email</b></label>
+        <input type="text" placeholder="Adj meg email címét" name="email" required>
+
+        <label for="psw"><b>Jelszó</b></label>
+        <input type="password" placeholder="Adjon meg egy jelszavat" name="psw" required>
+
+        <label for="psw-repeat"><b>Jelszó újra</b></label>
+        <input type="password" placeholder="Jelszó újra" name="psw-repeat" required>
+
+        <div class="clearfix">
+            <button type="button" class="cancelbtn"><b>Mégse</b></button>
+            <button type="submit" class="signupbtn"><b>Bejelentkezés</b></button>
+        </div>
+    </div>
+</form>
+</body>
+</html>
