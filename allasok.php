@@ -14,18 +14,9 @@
 </ul>
 <?php
 
-$tns = "
-(DESCRIPTION =
-    (ADDRESS_LIST =
-      (ADDRESS = (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
-    )
-    (CONNECT_DATA =
-      (SID = xe)
-    )
-  )";
- 
-  
-$conn = oci_connect('system', 'oracle', $tns,'UTF8');
+require_once "db/Database.php";
+
+$conn = Database::getInstance()->getConnection();
 
 echo '<h2>Dummy lekerdezes: </h2>';
 echo '<table border="0">';
