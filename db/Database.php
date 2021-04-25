@@ -12,6 +12,7 @@ class Database
     private $password;
     private $tns;
     private $character_set = "UTF8";
+    private $initTables = false;
 
     public static function getInstance() {
         if (self::$instance == null) {
@@ -36,9 +37,12 @@ class Database
         $this->username = $ini['username'];
         $this->password = $ini['password'];
         $this->sid = $ini['SID'];
+        $this->initTables = $ini['init_tables'];
         $this->setTNS($this->hostname, $this->port, $this->sid);
         $this->connectToDatabase();
-//        $this->initTables();
+        if ($this->initTables) {
+            $this->initTables();
+        }
     }
 
     private function initTables() {
