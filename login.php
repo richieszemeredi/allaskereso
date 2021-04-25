@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php include('login_backend.php') ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,20 +14,21 @@
     <li style="float:right"><a class="active" href="#login">Login</a></li>
 </ul>
 <h3>Bejelentkezés</h3>
-<form action="php" method ="post">
+<form action="login.php" method ="post">
     <div class="imgcontainer">
         <img src="img_avatar.png" alt="Avatar" class="avatar">
     </div>
     <div class="container">
-        <label for="uname"><b>Felhasználónév</b></label><br>
-        <input type="text" placeholder="Írja be a felhasználónevét" name="uname" required>
+        <?php include('errors.php'); ?>
+        <label for="username"><b>Felhasználónév</b></label><br>
+        <input type="text" placeholder="Írja be a felhasználónevét" name="username" required>
         <br>
-        <label for="psw"><b>Jelszó</b></label><br>
-        <input type="password" placeholder="Adja meg a jelszavát" name="psw" required>
+        <label for="password"><b>Jelszó</b></label><br>
+        <input type="password" placeholder="Adja meg a jelszavát" name="password" required>
 
-        <button type="submit"><b>Bejelentkezés</b></button>
+        <button type="submit" name="login_user"><b>Bejelentkezés</b></button>
         <label>
-            <button id="reg"><a href="registration.html">Regisztráció</a></button>
+            <button id="reg"><a href="register.php">Regisztráció</a></button>
         </label>
     </div>
 </form>

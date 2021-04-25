@@ -1,5 +1,6 @@
 <?php
 
+require_once "db/Database.php";
 require_once "dao/FelhasznaloDAO.php";
 require_once "model/Felhasznalo.php";
 
@@ -19,14 +20,14 @@ class FelhasznaloDAOImpl implements FelhasznaloDAO
     public function createFelhasznalo(Felhasznalo $felhasznalo): Felhasznalo|bool
     {
         $sql = "INSERT INTO FELHASZNALO(FELHASZNALO_NEV, FELHASZNALO_EMAIL, FELHASZNALO_JELSZO, ONELETRAJZ_URL, SZUL_DATUM)
-                VALUES (:nev, :email, :pw, :oneletrajz, :szul) RETURNING FELHASZNALO_ID INTO :id";
+                VALUES (:nev, :email, :pw, :oneletrajz, TO_TIMESTAMP(:szul, 'YY-MM-DD')) RETURNING FELHASZNALO_ID INTO :id";
         $parsed = oci_parse($this->conn, $sql);
 
         $nev = $felhasznalo->getNev();
         $email = $felhasznalo->getEmail();
         $pw = $felhasznalo->getHashedJelszo();
         $oneletrajz = $felhasznalo->getOneletrajz();
-        $szuldatum = $felhasznalo->getSzulDatum();
+        $szuldatum = strval($felhasznalo->getSzulDatum());
 
         oci_bind_by_name($parsed, "id", $id);
         oci_bind_by_name($parsed, "nev", $nev);
@@ -44,9 +45,14 @@ class FelhasznaloDAOImpl implements FelhasznaloDAO
         }
     }
 
-    public function getFelhasznalo(int $id): Felhasznalo | bool
+    public function getFelhasznalo(int|string $id): Felhasznalo | bool
     {
-        $sql = 'SELECT * FROM Felhasznalo WHERE Felhasznalo_ID = '.$id;
+        if (is_int($id)) {
+            $sql = 'SELECT * FROM Felhasznalo WHERE Felhasznalo_ID = '.$id;
+        } else {
+            $sql = 'SELECT * FROM Felhasznalo WHERE FELHASZNALO_NEV = \''.$id.'\'';
+        }
+
         $parsed = oci_parse($this->conn, $sql);
         oci_execute($parsed);
         $result = oci_fetch_array($parsed);
@@ -87,4 +93,15 @@ class FelhasznaloDAOImpl implements FelhasznaloDAO
         // TODO: Implement removeFelhasznalo() method.
     }
 
+    public function felhasznaloExists(string $email_or_name): bool
+    {
+        $sql = "SELECT * FROM FELHASZNALO WHERE FELHASZNALO_NEV = '$email_or_name' OR FELHASZNALO_EMAIL = '$email_or_name'";
+        $parsed = oci_parse($this->conn, $sql);
+        oci_execute($parsed);
+        $rowNum = oci_num_rows($parsed);
+        if ($rowNum > 0) {
+            return true;
+        }
+        return false;
+    }
 }

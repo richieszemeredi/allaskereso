@@ -10,7 +10,7 @@
     <li><a class="active" href="#home">Főoldal</a></li>
     <li><a href="#jobs">Állások</a></li>
     <li><a href="#inc">Cégek</a></li>
-    <li style="float:right"><a href="login.html">Login</a></li>
+    <li style="float:right"><a href="login.php">Login</a></li>
 </ul>
 <?php
 

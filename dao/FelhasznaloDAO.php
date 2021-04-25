@@ -36,4 +36,6 @@ interface FelhasznaloDAO
      */
     public function removeFelhasznalo(int $id) : bool;
 
+    public function felhasznaloExists(string $email_or_name) : bool;
+
 }

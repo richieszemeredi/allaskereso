@@ -24,7 +24,7 @@ class Felhasznalo
         $this->nev = $nev;
         $this->email = $email;
         $this->hashed_jelszo = $hashed_jelszo;
-        $this->oneletrajz = $oneletrajz;
+        $this->setOneletrajz($oneletrajz);
         $this->szul_datum = $szul_datum;
     }
 
@@ -117,6 +117,7 @@ class Felhasznalo
      */
     public function setOneletrajz(string $oneletrajz): void
     {
+        if ($oneletrajz == null) $oneletrajz = " ";
         $this->oneletrajz = $oneletrajz;
     }
 
@@ -126,6 +127,10 @@ class Felhasznalo
     public function setSzulDatum(string $szul_datum): void
     {
         $this->szul_datum = $szul_datum;
+    }
+
+    public function isPasswordValid(string $checkPw): bool {
+        return $checkPw == $this->hashed_jelszo;
     }
 
 }
