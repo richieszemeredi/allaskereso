@@ -82,4 +82,11 @@ class Database
                         )
                       )";
     }
+
+    public function __destruct()
+    {
+        oci_close($this->connection);
+    }
+
+
 }

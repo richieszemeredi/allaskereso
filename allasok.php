@@ -15,6 +15,7 @@
 <?php
 
 require_once "db/Database.php";
+require_once "dao/FelhasznaloDAOImpl.php";
 
 $conn = Database::getInstance()->getConnection();
 
