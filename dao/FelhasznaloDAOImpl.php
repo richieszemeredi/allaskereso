@@ -16,6 +16,19 @@ class FelhasznaloDAOImpl implements FelhasznaloDAO
         $this->conn = $this->db->getConnection();
     }
 
+    private function bindFelhasznalo($parsed, Felhasznalo $felhasznalo) {
+        $nev = $felhasznalo->getNev();
+        $email = $felhasznalo->getEmail();
+        $pw = $felhasznalo->getHashedJelszo();
+        $oneletrajz = $felhasznalo->getOneletrajz();
+        $szuldatum = $felhasznalo->getSzulDatum();
+
+        oci_bind_by_name($parsed, "nev", $nev);
+        oci_bind_by_name($parsed, "email", $email);
+        oci_bind_by_name($parsed, "pw", $pw);
+        oci_bind_by_name($parsed, "oneletrajz", $oneletrajz);
+        oci_bind_by_name($parsed, "szul", $szuldatum);
+    }
 
     public function createFelhasznalo(Felhasznalo $felhasznalo): Felhasznalo|bool
     {
@@ -23,18 +36,9 @@ class FelhasznaloDAOImpl implements FelhasznaloDAO
                 VALUES (:nev, :email, :pw, :oneletrajz, TO_TIMESTAMP(:szul, 'YY-MM-DD')) RETURNING FELHASZNALO_ID INTO :id";
         $parsed = oci_parse($this->conn, $sql);
 
-        $nev = $felhasznalo->getNev();
-        $email = $felhasznalo->getEmail();
-        $pw = $felhasznalo->getHashedJelszo();
-        $oneletrajz = $felhasznalo->getOneletrajz();
-        $szuldatum = strval($felhasznalo->getSzulDatum());
+        $this->bindFelhasznalo($parsed, $felhasznalo);
 
         oci_bind_by_name($parsed, "id", $id);
-        oci_bind_by_name($parsed, "nev", $nev);
-        oci_bind_by_name($parsed, "email", $email);
-        oci_bind_by_name($parsed, "pw", $pw);
-        oci_bind_by_name($parsed, "oneletrajz", $oneletrajz);
-        oci_bind_by_name($parsed, "szul", $szuldatum);
 
         $result = oci_execute($parsed);
         if ($result) {
@@ -85,12 +89,27 @@ class FelhasznaloDAOImpl implements FelhasznaloDAO
 
     public function updateFelhasznalo(int $id, Felhasznalo $felhasznalo): bool
     {
-        // TODO: Implement updateFelhasznalo() method.
+        $sql = 'UPDATE Felhasznalo SET
+                FELHASZNALO_NEV = :nev,
+                FELHASZNALO_EMAIL = :email,
+                FELHASZNALO_JELSZO = :pw,
+                ONELETRAJZ_URL = :oneletrajz,
+                SZUL_DATUM = :szuldatum
+                WHERE FELHASZNALO_ID = :id';
+
+        $parsed = oci_parse($this->conn, $sql);
+        $this->bindFelhasznalo($parsed, $felhasznalo);
+        $id = $felhasznalo->getId();
+        oci_bind_by_name($parsed, "id", $id);
+        return oci_execute($parsed);
     }
 
     public function removeFelhasznalo(int $id): bool
     {
-        // TODO: Implement removeFelhasznalo() method.
+        $sql = 'DELETE FROM Felhasznalo WHERE FELHASZNALO_ID = :id';
+        $parsed = oci_parse($this->conn, $sql);
+        oci_bind_by_name($parsed, "id", $id);
+        return oci_execute($parsed);
     }
 
     public function felhasznaloExists(string $email_or_name): bool
