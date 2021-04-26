@@ -3,7 +3,7 @@
 
 class Felhasznalo
 {
-    private $id;
+    private ?int $id;
     private $nev;
     private $email;
     private $hashed_jelszo;
