@@ -19,44 +19,35 @@ require_once "dao/FelhasznaloDAOImpl.php";
 require_once "dao/AllasDAOImpl.php";
 
 $conn = Database::getInstance()->getConnection();
-$allasDAO = new AllasDAOImpl();
+buildAllasTable();
 
-$allas = $allasDAO->getAllas(6);
+function buildAllasTable() {
+    $allasDAO = new AllasDAOImpl();
 
-echo $allas->getNev();
+    $emptyString = "none";
 
-echo '<h2>Dummy lekerdezes: </h2>';
-echo '<table border="0">';
-
-
-//// -- lekerdezzuk a tabla tartalmat
-$stid = oci_parse($conn, 'SELECT * FROM DUAL');
-
-oci_execute($stid);
-
-//// -- eloszor csak az oszlopneveket kerem le
-$nfields = oci_num_fields($stid);
-echo '<tr>';
-for ($i = 1; $i<=$nfields; $i++){
-    $field = oci_field_name($stid, $i);
-    echo '<td>' . $field . '</td>';
-}
-echo '</tr>';
-
-//// -- ujra vegrehajtom a lekerdezest, es kiiratom a sorokat
-oci_execute($stid);
-
-while ( $row = oci_fetch_array($stid, OCI_ASSOC + OCI_RETURN_NULLS)) {
-    echo '<tr>';
-    foreach ($row as $item) {
-        echo '<td>' . $item . '</td>';
+    $allasok = $allasDAO->getAllAllas();
+    echo '<table>
+        <th>
+            <tr>
+                <td>Állás ID</td>
+                <td>Állás név</td>
+                <td>Érvényességi idő</td>
+                <td>Város neve</td>
+                <td>Hirdető neve</td>
+            </tr>
+        </th>';
+    /** @var Allas $allas */
+    foreach ($allasok as $allas) {
+        echo '<tr>';
+        echo '<td>'.$allas->getId().'</td>';
+        echo '<td>'.$allas->getNev().'</td>';
+        echo '<td>'.$allas->getErvenyessegiIdo().'</td>';
+        echo '<td>'.((!is_null($allas->getVaros())) ? $allas->getVaros()->getNev() : $emptyString).'</td>';
+        echo '<td>'.((!is_null($allas->getHirdeto())) ? $allas->getHirdeto()->getNev() : $emptyString).'</td>';
+        echo '</tr>';
     }
-    echo '</tr>';
 }
-echo '</table>';
-
-oci_close($conn);
-
 
 ?>
 </body>

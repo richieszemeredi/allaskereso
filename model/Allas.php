@@ -92,7 +92,7 @@ class Allas
     /**
      * @return Varos
      */
-    public function getVaros(): Varos
+    public function getVaros(): Varos | null
     {
         return $this->varos;
     }
