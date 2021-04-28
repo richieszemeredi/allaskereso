@@ -21,9 +21,9 @@ require_once "dao/AllasDAOImpl.php";
 $conn = Database::getInstance()->getConnection();
 $allasDAO = new AllasDAOImpl();
 
-$allas = new Allas("test", "1998-07-31", new AllasTipus("tesztTipus", 1), new Ceg("hehexd", 1), [new Varos(1, "Izsák", 6070)]);
+$allas = $allasDAO->getAllas(6);
 
-$allasDAO->createAllas($allas);
+echo $allas->getNev();
 
 echo '<h2>Dummy lekerdezes: </h2>';
 echo '<table border="0">';

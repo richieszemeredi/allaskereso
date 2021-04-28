@@ -6,9 +6,10 @@ class Allas
     private ?int $id;
     private ?string $nev;
     private $ervenyessegi_ido;
-    private AllasTipus $allastipus;
-    private $varosok;
+    private ?AllasTipus $allastipus;
+    private $varos;
     private ?Ceg $hirdeto;
+    private ?Kovetelmeny $kovetelmeny;
 
     /**
      * Allas constructor.
@@ -16,13 +17,13 @@ class Allas
      * @param string|null $nev
      * @param $ervenyessegi_ido
      */
-    public function __construct(?string $nev, $ervenyessegi_ido, AllasTipus $allastipus, ?Ceg $hirdeto, $varosok = null, ?int $id = null)
+    public function __construct(?string $nev, $ervenyessegi_ido, ?AllasTipus $allastipus, ?Ceg $hirdeto, $varos = null, ?int $id = null)
     {
         $this->id = $id;
         $this->nev = $nev;
         $this->ervenyessegi_ido = $ervenyessegi_ido;
         $this->allastipus = $allastipus;
-        $this->varosok = $varosok;
+        $this->varos = $varos;
         $this->hirdeto = $hirdeto;
     }
 
@@ -89,19 +90,19 @@ class Allas
     }
 
     /**
-     * @return mixed|null
+     * @return Varos
      */
-    public function getVarosok(): mixed
+    public function getVaros(): Varos
     {
-        return $this->varosok;
+        return $this->varos;
     }
 
     /**
-     * @param mixed|null $varosok
+     * @param Varos $varos
      */
-    public function setVarosok(mixed $varosok): void
+    public function setVaros(Varos $varos): void
     {
-        $this->varosok = $varosok;
+        $this->varos = $varos;
     }
 
     /**
@@ -120,6 +121,20 @@ class Allas
         $this->hirdeto = $hirdeto;
     }
 
+    /**
+     * @return Kovetelmeny|null
+     */
+    public function getKovetelmeny(): ?Kovetelmeny
+    {
+        return $this->kovetelmeny;
+    }
 
+    /**
+     * @param Kovetelmeny|null $kovetelmeny
+     */
+    public function setKovetelmeny(?Kovetelmeny $kovetelmeny): void
+    {
+        $this->kovetelmeny = $kovetelmeny;
+    }
 
 }

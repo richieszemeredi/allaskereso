@@ -11,6 +11,27 @@ class AllasDAOImpl implements AllasDAO
 
     private $db;
     private $conn;
+    private $selectAllasSQL =  'SELECT allasok.allas_id AS ALLASID,
+                                    allasok.allas_nev AS ALLASNEV, 
+                                    allasok.ervenyessegi_ido AS ERVENYESSEGIIDO,
+                                    allastipus.TIPUS_ID AS TIPUSID, 
+                                    ALLASTIPUS.TIPUS_NEV AS TIPUSNEV,
+                                    VAROS.VAROS_ID AS VAROSID, 
+                                    VAROS.VAROS_NEV AS VAROSNEV, 
+                                    VAROS.IRANYITOSZAM AS IRANYITOSZAM,
+                                    KOVETELMENYEK.KOV_ID AS KOVID, 
+                                    KOVETELMENYEK.KOV_NEV AS KOVNEV,
+                                    CEG.CEG_ID AS CEGID, 
+                                    CEG.CEG_NEV AS CEGNEV
+                                FROM ALLASOK
+                                    LEFT JOIN (SELECT VANTIPUS.ALLAS_ID AS ALLAS_ID, ALLASTIPUS.TIPUS_ID AS TIPUS_ID, ALLASTIPUS.TIPUS_NEV AS TIPUS_NEV FROM VANTIPUS LEFT JOIN ALLASTIPUS ON VANTIPUS.TIPUS_ID = ALLASTIPUS.TIPUS_ID) ALLASTIPUS
+                                        ON allastipus.allas_id = ALLASOK.ALLAS_ID
+                                    LEFT JOIN (SELECT ELOFORDUL.ALLAS_ID AS ALLAS_ID, VAROSOK.VAROS_ID AS VAROS_ID, VAROSOK.VAROSNEV AS VAROS_NEV, VAROSOK.IRANYITOSZAM AS IRANYITOSZAM FROM ELOFORDUL LEFT JOIN VAROSOK ON ELOFORDUL.VAROS_ID = VAROSOK.VAROS_ID) VAROS
+                                        ON VAROS.allas_id = ALLASOK.ALLAS_ID
+                                    LEFT JOIN (SELECT FELTETELE.ALLAS_ID AS ALLAS_ID, KOVETELMENYEK.KOV_ID AS KOV_ID, KOVETELMENYEK.KOV_NEV AS KOV_NEV FROM FELTETELE LEFT JOIN KOVETELMENYEK ON FELTETELE.KOV_ID = KOVETELMENYEK.KOV_ID) KOVETELMENYEK
+                                        ON KOVETELMENYEK.allas_id = ALLASOK.ALLAS_ID
+                                    LEFT JOIN (SELECT MEGHIRDET.ALLAS_ID AS ALLAS_ID, CEG.CEG_ID AS CEG_ID, CEG.CEG_NEV AS CEG_NEV FROM MEGHIRDET LEFT JOIN CEG ON MEGHIRDET.CEG_ID = CEG.CEG_ID) CEG
+                                        ON CEG.allas_id = ALLASOK.ALLAS_ID';
 
     public function __construct()
     {
@@ -86,14 +107,71 @@ class AllasDAOImpl implements AllasDAO
         return oci_execute($tipusParsed);
     }
 
-    public function getAllas(int $id): Allas
+    public function getAllas(int $id): Allas | bool
     {
-        // TODO: Implement getAllas() method.
+        $parsed = oci_parse($this->conn, $this->selectAllasSQL . ' WHERE ALLASOK.ALLAS_ID = ' . $id);
+        oci_execute($parsed);
+        $result = oci_fetch_array($parsed);
+        if (!$result) {
+            return false;
+        }
+        return $this->createAllasFromResultArray($result);
     }
 
     public function getAllAllas(): array
     {
-        // TODO: Implement getAllAllas() method.
+
+        $parsed = oci_parse($this->conn, $this->selectAllasSQL);
+        oci_execute($parsed);
+        $resultArray = [];
+        oci_fetch_all($parsed, $resultArray, 0, -1, OCI_FETCHSTATEMENT_BY_ROW);
+
+        $allasok = [];
+
+        foreach ($resultArray as $result) {
+            array_push($allasok, $this->createAllasFromResultArray($result));
+        }
+
+        return $allasok;
+    }
+
+    private function createAllasFromResultArray(array $resultArr): Allas {
+        $allasID = $resultArr['ALLASID'];
+        $allasNev = $resultArr['ALLASNEV'];
+        $ervenyessegiIdo = $resultArr['ERVENYESSEGIIDO'];
+
+        $allas = new Allas($allasNev, $ervenyessegiIdo, null, null, null, $allasID);
+
+        if ($this->hasTipus($resultArr)) {
+            $allas->setAllastipus(new AllasTipus($resultArr['TIPUSNEV'], $resultArr['TIPUSID']));
+        }
+        if ($this->hasCeg($resultArr)) {
+            $allas->setHirdeto(new Ceg($resultArr['CEGNEV'], $resultArr['CEGID']));
+        }
+        if($this->hasVaros($resultArr)) {
+            $allas->setVaros(new Varos($resultArr['VAROSID'], $resultArr['VAROSNEV'], $resultArr['IRANYITOSZAM']));
+        }
+        if($this->hasKovetelmeny($resultArr)) {
+            $allas->setKovetelmeny(new Kovetelmeny($resultArr['KOVID'], $resultArr['KOVNEV']));
+        }
+
+        return $allas;
+    }
+
+    private function hasTipus(array $resultArr): bool {
+        return isset($resultArr['TIPUSID']);
+    }
+
+    private function hasKovetelmeny(array $resultArr): bool {
+        return isset($resultArr['KOVID']);
+    }
+
+    private function hasVaros(array $resultArr): bool {
+        return isset($resultArr['VAROSID']);
+    }
+
+    private function hasCeg(array $resultArr): bool {
+        return isset($resultArr['CEGID']);
     }
 
     public function updateAllas(int $id, Allas $allas): bool
