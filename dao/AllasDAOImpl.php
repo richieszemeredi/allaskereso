@@ -5,6 +5,7 @@ require_once "model/Allas.php";
 require_once "model/Ceg.php";
 require_once "model/AllasTipus.php";
 require_once "model/Varos.php";
+require_once "model/Kovetelmeny.php";
 
 class AllasDAOImpl implements AllasDAO
 {
@@ -120,7 +121,6 @@ class AllasDAOImpl implements AllasDAO
 
     public function getAllAllas(): array
     {
-        echo $this->$selectAllasSQL;
         $parsed = oci_parse($this->conn, $this->selectAllasSQL);
         oci_execute($parsed);
         $resultArray = [];
