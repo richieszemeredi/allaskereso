@@ -1,7 +1,3 @@
-<?php
-    session_start();
-    require_once "model/Felhasznalo.php"
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +7,9 @@
 </head>
 <body>
 <ul>
-    <li><a class="active" href="index.php">Főoldal</a></li>
+    <li><a href="index.php">Főoldal</a></li>
     <li><a href="allasok.php">Állások</a></li>
-    <li><a href="cegek.php">Cégek</a></li>
+    <li><a class="active" href="cegek.php">Cégek</a></li>
     <?php
     if (isset($_SESSION['felhasznalo'])) {
         $felhasznalo = unserialize($_SESSION['felhasznalo']);
@@ -23,11 +19,5 @@
     }
     ?>
 </ul>
-<h1>Üdvözüljük álláskereső oldalunkon!</h1>
-<h3>Válogasson kedve szerint a meghirdetett állások listájából!<br>
-Nálunk csak ellenörzött vállalkozások hirdetnek!
-</h3>
-<h2 id="a">Ammenyiben szeretne állásra jelentkezni, vagy
-új állást meghirdetni kérjük jelentkezzen be!</h2>
 </body>
 </html>

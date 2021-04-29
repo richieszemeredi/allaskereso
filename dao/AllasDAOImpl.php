@@ -43,7 +43,7 @@ class AllasDAOImpl implements AllasDAO
     {
         $allasSQL = "INSERT INTO ALLASOK(ALLAS_NEV, ERVENYESSEGI_IDO)
                 VALUES (:nev, TO_TIMESTAMP(:ido, 'YY-MM-DD')) RETURNING ALLAS_ID INTO :allasID";
-        $allasNev = $allas->getNev();
+        $allasNev = $allas->getNev();   
         $ido = $allas->getErvenyessegiIdo();
         $allasParsed = oci_parse($this->conn, $allasSQL);
         oci_bind_by_name($allasParsed, "nev", $allasNev);
@@ -120,7 +120,7 @@ class AllasDAOImpl implements AllasDAO
 
     public function getAllAllas(): array
     {
-
+        echo $this->$selectAllasSQL;
         $parsed = oci_parse($this->conn, $this->selectAllasSQL);
         oci_execute($parsed);
         $resultArray = [];
@@ -131,7 +131,6 @@ class AllasDAOImpl implements AllasDAO
         foreach ($resultArray as $result) {
             array_push($allasok, $this->createAllasFromResultArray($result));
         }
-
         return $allasok;
     }
 

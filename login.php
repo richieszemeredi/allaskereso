@@ -8,9 +8,9 @@
 </head>
 <body>
 <ul>
-    <li><a href="Main.html">Főoldal</a></li>
-    <li><a href="#jobs">Állások</a></li>
-    <li><a href="#inc">Cégek</a></li>
+    <li><a href="index.php">Főoldal</a></li>
+    <li><a href="allasok.php">Állások</a></li>
+    <li><a href="cegek.php">Cégek</a></li>
     <li style="float:right"><a class="active" href="#login">Login</a></li>
 </ul>
 <h3>Bejelentkezés</h3>

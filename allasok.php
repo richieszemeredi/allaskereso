@@ -7,10 +7,17 @@
 </head>
 <body>
 <ul>
-    <li><a class="active" href="#home">Főoldal</a></li>
-    <li><a href="#jobs">Állások</a></li>
-    <li><a href="#inc">Cégek</a></li>
-    <li style="float:right"><a href="login.php">Login</a></li>
+    <li><a href="index.php">Főoldal</a></li>
+    <li><a class="active" href="allasok.php">Állások</a></li>
+    <li><a href="cegek.php">Cégek</a></li>
+    <?php
+    if (isset($_SESSION['felhasznalo'])) {
+        $felhasznalo = unserialize($_SESSION['felhasznalo']);
+        echo '<li style="float:right"><a href="logout.php">'.$felhasznalo->getNev().'</a></li>';
+    } else {
+        echo '<li style="float:right"><a href="login.php">Bejelentkezés</a></li>';
+    }
+    ?>
 </ul>
 <?php
 
@@ -47,6 +54,7 @@ function buildAllasTable() {
         echo '<td>'.((!is_null($allas->getHirdeto())) ? $allas->getHirdeto()->getNev() : $emptyString).'</td>';
         echo '</tr>';
     }
+    echo '</table>';
 }
 
 ?>
