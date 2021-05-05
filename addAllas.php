@@ -37,45 +37,42 @@
     </div>
 </nav>
 <div class="container">
-    <?php
+    <form action="addAllas.php">
+        <div class="mb-3">
+            <label for="allasNev" class="form-label">Állás neve</label>
+            <input type="text" class="form-control" id="allasNev">
+        </div>
+         <div class="mb-3">
+            <label for="ervId" class="form-label">Érvényességi idő</label>
+            <input type="text" class="form-control" id="ervId">
+        </div>
+         <div class="mb-3">
+            <label for="varosNev" class="form-label">Város neve</label>
+            <input type="text" class="form-control" id="varosNev">
+        </div>
+        <button type="submit" class="btn btn-primary">Álláshírdetés feladása</button>
+    </form>
 
+    <?php
     require_once "db/Database.php";
-    require_once "dao/FelhasznaloDAOImpl.php";
     require_once "dao/AllasDAOImpl.php";
 
-    $conn = Database::getInstance()->getConnection();
-    buildAllasTable();
-
-    function buildAllasTable()
-    {
-        $allasDAO = new AllasDAOImpl();
-
-        $emptyString = "none";
-
-        $allasok = $allasDAO->getAllAllas();
-        echo '<table class="table table-hover">
-        <th>
-            <tr>
-                <td scope="col">Állás ID</td>
-                <td scope="col">Állás név</td>
-                <td scope="col">Érvényességi idő</td>
-                <td scope="col">Város neve</td>
-                <td scope="col">Hirdető neve</td>
-            </tr>
-        </th>';
-        /** @var Allas $allas */
-        foreach ($allasok as $allas) {
-            echo '<tr>';
-            echo '<td scope="row">' . $allas->getId() . '</td>';
-            echo '<td>' . $allas->getNev() . '</td>';
-            echo '<td>' . $allas->getErvenyessegiIdo() . '</td>';
-            echo '<td>' . ((!is_null($allas->getVaros())) ? $allas->getVaros()->getNev() : $emptyString) . '</td>';
-            echo '<td>' . ((!is_null($allas->getHirdeto())) ? $allas->getHirdeto()->getNev() : $emptyString) . '</td>';
-            echo '</tr>';
-        }
-        echo '</table>';
+    if (isset($_POST['createAllas'])) {
+        makeAllas();
     }
 
+    function makeAllas() {
+
+        $allasNev = $_POST['allas_nev'];
+        $ervenyessegi_ido = $_POST['ervenyessegi_ido'];
+
+        $allas = new Allas($allasNev, $ervenyessegi_ido, new AllasTipus("teszt", 1), new Ceg("tesztCeg", 1), new Varos(1, "TesztVaros", 1337));
+
+        $allasDAO = new AllasDAOImpl();
+
+        $allasDAO->createAllas($allas);
+
+    }
     ?>
 </div>
 </body>
