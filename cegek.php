@@ -38,6 +38,41 @@
 </nav>
 <div class="container">
 
+
+<?php
+
+    require_once "db/Database.php";
+    require_once "dao/CegDAOImpl.php";
+
+    $conn = Database::getInstance()->getConnection();
+    buildCegTable();
+
+    function buildCegTable()
+    {
+        $cegDAO = new CegDAOImpl();
+
+        $emptyString = "none";
+
+        $cegek = $cegDAO->getAllCeg();
+        echo '<table class="table table-hover">
+        <th>
+            <tr>
+                <td scope="col">Cég ID</td>
+                <td scope="col">Cég név</td>
+            </tr>
+        </th>';
+        /** @var Ceg $ceg */
+        foreach ($cegek as $ceg) {
+            echo '<tr>';
+            echo '<td scope="row">' . $ceg->getId() . '</td>';
+            echo '<td>' . $ceg->getNev() . '</td>';
+            echo '</tr>';
+        }
+        echo '</table>';
+    }
+
+    ?>
+
 </div>
 </body>
 </html>

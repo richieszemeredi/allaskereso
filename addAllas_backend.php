@@ -13,9 +13,9 @@ if (isset($_POST['createAllas'])) {
     $ervenyessegi_ido = $_POST['ervId'];
     $varosID = $_POST['varosNev'];
     $varos = $varosDAO->getVaros($varosID);
-    if (!$varos) {
-        array_push($errors, "Érvényetelen város");
-    }
+    // if (!$varos) {
+    //     array_push($errors, "Érvényetelen város");
+    // }
 
     if (count($errors) == 0) {
         $allas = new Allas($allasNev, $ervenyessegi_ido, new AllasTipus("teszt", 1), new Ceg("tesztCeg", 1), $varos);

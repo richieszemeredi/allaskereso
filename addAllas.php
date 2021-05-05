@@ -40,7 +40,7 @@
 </nav>
 <div class="container">
     <?php include('errors.php'); ?>
-    <form action="addAllas.php" method="post">
+    <form action="addAllas_backend.php" method="post">
         <div class="mb-3">
             <label for="allasNev" class="form-label">Állás neve</label>
             <input type="text" class="form-control" id="allasNev" name="allasNev" required>

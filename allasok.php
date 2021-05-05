@@ -37,6 +37,7 @@
     </div>
 </nav>
 <div class="container">
+<a class="btn btn-primary" href="addAllas.php">Állás hozzáadása</a>
     <?php
 
     require_once "db/Database.php";

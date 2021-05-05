@@ -4,25 +4,64 @@
 class Ceg
 {
     private ?int $id;
-    private ?string $nev;
+    private $nev;
+    private $email;
+    private $hashed_jelszo;
+    private $oneletrajz;
+    private $szul_datum;
 
     /**
-     * Ceg constructor.
-     * @param int|null $id
-     * @param string|null $nev
+     * @param $id positive-int A felhasználó azonositója
+     * @param $nev string A felhasználó teljes neve
+     * @param $email string A felhasználó e-mail cime
+     * @param $hashed_jelszo string A felhasználó hashelt jelszava
+     * @param $oneletrajz string A felhasználó önéletrajzára mutató URL
+     * @param $szul_datum string A felhasználó születési dátuma
      */
-    public function __construct(?string $nev, ?int $id = null)
+    public function __construct($nev, $email, $hashed_jelszo, $id = null)
     {
         $this->id = $id;
         $this->nev = $nev;
+        $this->email = $email;
+        $this->hashed_jelszo = $hashed_jelszo;
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getNev(): string
+    {
+        return $this->nev;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHashedJelszo(): string
+    {
+        return $this->hashed_jelszo;
+    }
+
+    
+    
+    public function isValid(): bool {
+        return $this->id != null;
     }
 
     /**
@@ -34,22 +73,33 @@ class Ceg
     }
 
     /**
-     * @return string|null
+     * @param string $nev
      */
-    public function getNev(): ?string
-    {
-        return $this->nev;
-    }
-
-    /**
-     * @param string|null $nev
-     */
-    public function setNev(?string $nev): void
+    public function setNev(string $nev): void
     {
         $this->nev = $nev;
     }
 
-    public function isValid(): bool {
-        return $this->getId() == null;
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
+
+    /**
+     * @param string $hashed_jelszo
+     */
+    public function setHashedJelszo(string $hashed_jelszo): void
+    {
+        $this->hashed_jelszo = $hashed_jelszo;
+    }
+
+    
+
+    public function isPasswordValid(string $checkPw): bool {
+        return $checkPw == $this->hashed_jelszo;
+    }
+
 }
