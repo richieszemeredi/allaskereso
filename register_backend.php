@@ -47,7 +47,7 @@ if (isset($_POST['reg_user'])) {
         $felhasznalo = $felhasznaloDAO->createFelhasznalo($felhasznalo);
 
         if ($felhasznalo) {
-            $_SESSION['felhasznalo'] = $felhasznalo;
+            $_SESSION['felhasznalo'] = serialize($felhasznalo);
             $_SESSION['success'] = "You are now logged in";
             header('location: index.php');
         }

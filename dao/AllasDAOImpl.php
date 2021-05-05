@@ -12,7 +12,7 @@ class AllasDAOImpl implements AllasDAO
 
     private $db;
     private $conn;
-    private $selectAllasSQL =  'SELECT allasok.allas_id AS ALLASID,
+    private $selectAllasSQL =  'SELECT DISTINCT allasok.allas_id AS ALLASID,
                                     allasok.allas_nev AS ALLASNEV, 
                                     allasok.ervenyessegi_ido AS ERVENYESSEGIIDO,
                                     allastipus.TIPUS_ID AS TIPUSID, 
@@ -75,29 +75,24 @@ class AllasDAOImpl implements AllasDAO
             oci_bind_by_name($hirdetoParsed, "cegID", $hirdetoID);
             return oci_execute($hirdetoParsed);
         }
-        return false;
+        return true;
     }
 
     private function saveAllasElofordulas(Allas $allas): bool {
         $allasID = $allas->getId();
-        $allasVarosok = $allas->getVarosok();
-        $successfull = 0;
-        foreach ($allasVarosok as $varos) {
-            $varosID = $varos->getId();
-            $allasVarosSQL = "INSERT INTO ELOFORDUL(ALLAS_ID, VAROS_ID)
-                VALUES (:allasID, :varosID)";
-            $varosParsed = oci_parse($this->conn, $allasVarosSQL);
-            oci_bind_by_name($varosParsed, "allasID", $allasID);
-            oci_bind_by_name($varosParsed, "varosID", $varosID);
-            if (oci_execute($varosParsed)) {
-                $successfull++;
-            }
-        }
-        return $successfull == count($allasVarosok);
+        $varos = $allas->getVaros();
+        if ($varos == null) return true;
+        $varosID = $varos->getId();
+        $allasVarosSQL = "INSERT INTO ELOFORDUL(ALLAS_ID, VAROS_ID) VALUES (:allasID, :varosID)";
+        $varosParsed = oci_parse($this->conn, $allasVarosSQL);
+        oci_bind_by_name($varosParsed, "allasID", $allasID);
+        oci_bind_by_name($varosParsed, "varosID", $varosID);
+        return oci_execute($varosParsed);
     }
 
     private function saveAllasTipus(Allas $allas): bool {
         $allasTipus = $allas->getAllastipus();
+        if ($allasTipus == null) return true;
         $allasID = $allas->getId();
         $allasTipusID = $allasTipus->getId();
         $allasTipusSQL = "INSERT INTO VANTIPUS(ALLAS_ID, TIPUS_ID)

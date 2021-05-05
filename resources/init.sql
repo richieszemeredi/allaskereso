@@ -63,4 +63,10 @@ CREATE TABLE Meghirdet (
     Ceg_ID NUMBER NOT NULL,
     CONSTRAINT Allas_Ceg_fk FOREIGN KEY (Allas_ID) REFERENCES Allasok(Allas_ID),
     CONSTRAINT Ceg_Allas_fk FOREIGN KEY (Ceg_ID) REFERENCES Ceg(Ceg_ID)
-)
+);
+CREATE TABLE Jelentkezik (
+     Allas_ID NUMBER NOT NULL,
+     Felhasznalo_ID NUMBER NOT NULL,
+     CONSTRAINT Allas_Felhasznalo_fk FOREIGN KEY (Allas_ID) REFERENCES Allasok(Allas_ID),
+     CONSTRAINT Felhasznalo_Allas_fk FOREIGN KEY (Felhasznalo_ID) REFERENCES Felhasznalo(Felhasznalo_ID)
+);

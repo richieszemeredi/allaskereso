@@ -6,11 +6,11 @@ $felhasznaloDAO = new FelhasznaloDAOImpl();
 $errors = [];
 
 if (isset($_POST['login_user'])) {
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
 
-    if (empty($username)) {
+    if (empty($email)) {
         array_push($errors, "Username is required");
     }
     if (empty($password)) {
@@ -19,7 +19,7 @@ if (isset($_POST['login_user'])) {
 
     if (count($errors) == 0) {
         $password = md5($password);
-        $felhasznalo = $felhasznaloDAO->getFelhasznalo($username);
+        $felhasznalo = $felhasznaloDAO->getFelhasznalo($email);
         if ($felhasznalo && $felhasznalo->isPasswordValid($password)) {
             $_SESSION['felhasznalo'] = serialize($felhasznalo);
             $_SESSION['success'] = "You are now logged in";

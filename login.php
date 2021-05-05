@@ -42,17 +42,17 @@
             <h2>Bejelentkezés álláskeresőként</h2>
             <form action="login.php" method ="post">
                 <div class="mb-3">
-                    <label for="username" class="form-label">Email cím</label>
-                    <input type="email" class="form-control" id="username">
+                    <label for="username" class="form-label">Felhasználónév</label>
+                    <input type="text" class="form-control" name="email">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Jelszó</label>
-                    <input type="password" class="form-control" id="password">
+                    <input type="password" class="form-control" name="password">
                 </div>
-                <button type="submit" class="btn btn-primary">Bejelentkezés</button>
+                <button name="login_user" type="submit" class="btn btn-primary">Bejelentkezés</button>
                 <div>
                     <h6>Nincs még regisztrációja?</h6>
-                    <a class="btn btn-primary" href="allaskereso_regist.php" role="button">Regisztráció</a>
+                    <a class="btn btn-primary" href="register.php" role="button">Regisztráció</a>
                 </div>
             </form>
         </div>

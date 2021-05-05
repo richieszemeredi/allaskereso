@@ -1,6 +1,5 @@
 <?php
 
-
 interface AllasDAO
 {
     public function createAllas(Allas $allas): Allas | bool;

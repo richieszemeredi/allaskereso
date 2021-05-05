@@ -1,4 +1,6 @@
+
 <!DOCTYPE html>
+<?php include('addAllas_backend.php'); ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,40 +39,22 @@
     </div>
 </nav>
 <div class="container">
-    <form action="addAllas.php">
+    <?php include('errors.php'); ?>
+    <form action="addAllas.php" method="post">
         <div class="mb-3">
             <label for="allasNev" class="form-label">Állás neve</label>
-            <input type="text" class="form-control" id="allasNev">
+            <input type="text" class="form-control" id="allasNev" name="allasNev" required>
         </div>
          <div class="mb-3">
             <label for="ervId" class="form-label">Érvényességi idő</label>
-            <input type="text" class="form-control" id="ervId">
+            <input type="date" class="form-control" id="ervId" name="ervId">
         </div>
          <div class="mb-3">
             <label for="varosNev" class="form-label">Város neve</label>
-            <input type="text" class="form-control" id="varosNev">
+            <input type="text" class="form-control" id="varosNev" name="varosNev" required>
         </div>
-         <div class="mb-3">
-            <label for="hirdeto" class="form-label">Állás neve</label>
-            <input type="text" class="form-control" id="allasNev">
-        </div>
-        <button type="submit" class="btn btn-primary">Bejelentkezés</button>
+        <button name="createAllas" type="submit" class="btn btn-primary">Álláshírdetés feladása</button>
     </form>
-
-    <?php
-    require_once "db/Database.php";
-    require_once "dao/AllasDAOImpl.php";
-
-    $conn = Database::getInstance()->getConnection();
-
-    function makeAllas() {
-        $allas = new Allas();
-        $allas.setNev($_REQUEST['allasNev']);
-        $allasDAO = new AllasDAOImpl();
-
-        $allasDAO.createAllas($allas);
-    }
-    ?>
 </div>
 </body>
 </html>
