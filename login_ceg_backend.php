@@ -8,8 +8,6 @@ $cegDAO = new CegDAOImpl();
 $errors = [];
 
 if (isset($_POST['login_ceg'])) {
-    echo "asda";
-
     $email = $_POST['email'];
     $password = $_POST['password'];
 

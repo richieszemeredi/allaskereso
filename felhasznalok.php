@@ -15,30 +15,29 @@
 <?php
 
     require_once "db/Database.php";
-    require_once "dao/CegDAOImpl.php";
+    require_once "dao/FelhasznaloDAOImpl.php";
 
     $conn = Database::getInstance()->getConnection();
-    buildCegTable();
+    buildFelhasznaloTable();
 
-    function buildCegTable()
+    function buildFelhasznaloTable()
     {
-        $cegDAO = new CegDAOImpl();
+        $felhasznaloDAO = new FelhasznaloDAOImpl();
 
         $emptyString = "none";
 
-        $cegek = $cegDAO->getAllCeg();
+        $felhasznalok = $felhasznaloDAO->getAllFelhasznalo();
         echo '<table class="table table-hover">
         <th>
             <tr>
-                <td scope="col">Cég ID</td>
-                <td scope="col">Cég név</td>
+                <td scope="col">Felhasznalo ID</td>
+                <td scope="col">Felhasznalo név</td>
             </tr>
         </th>';
-        /** @var Ceg $ceg */
-        foreach ($cegek as $ceg) {
+        foreach ($felhasznalok as $felhasznalo) {
             echo '<tr>';
-            echo '<td scope="row">' . $ceg->getId() . '</td>';
-            echo '<td>' . $ceg->getNev() . '</td>';
+            echo '<td scope="row">' . $felhasznalo->getId() . '</td>';
+            echo '<td>' . $felhasznalo->getNev() . '</td>';
             echo '</tr>';
         }
         echo '</table>';

@@ -56,7 +56,7 @@
     </div>
 
     <div class="mb-3">
-        <button type="submit" class="btn btn-primary" name="reg_ceg">Regisztráció</button>
+        <button type="submit" class="btn btn-primary" name="reg_user">Regisztráció</button>
     </div>
     <p>
         Már regisztrált? 
