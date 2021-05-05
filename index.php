@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    require_once "model/Felhasznalo.php"
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
