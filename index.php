@@ -1,6 +1,7 @@
 <?php
     session_start();
-    require_once "model/Felhasznalo.php"
+    require_once "model/Felhasznalo.php";
+    require_once "model/Ceg.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +33,12 @@
                 if (isset($_SESSION['felhasznalo'])) {
                     $felhasznalo = unserialize($_SESSION['felhasznalo']);
                     echo '<li style="margin-left: auto"><a class="nav-link" href="logout.php">' . $felhasznalo->getNev() . '</a></li>';
-                } else {
+                }
+                else if (isset($_SESSION['ceg'])) {
+                    $ceg = unserialize($_SESSION['ceg']);
+                    echo '<li style="margin-left: auto"><a class="nav-link" href="logout.php">' . $ceg->getNev() . '</a></li>';
+                } 
+                else {
                     echo '<li style="margin-left: auto"><a class="nav-link" href="login.php">Bejelentkezés</a></li>';
                 }
                 ?>

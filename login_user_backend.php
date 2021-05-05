@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once "dao/FelhasznaloDAOImpl.php";
+require_once "dao/FelhasznaloDAO.php";
+require_once "errors.php";
 
 $felhasznaloDAO = new FelhasznaloDAOImpl();
 $errors = [];
@@ -26,6 +28,7 @@ if (isset($_POST['login_user'])) {
             header('location: index.php');
         } else {
             array_push($errors, "Wrong username/password combination");
+            header('location: login.php');
         }
     }
 }

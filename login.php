@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<?php include('login_backend.php') ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -40,10 +39,10 @@
     <div class="row">
         <div class="col-sm">
             <h2>Bejelentkezés álláskeresőként</h2>
-            <form action="login.php" method ="post">
+            <form action="login_user_backend.php" method ="post">
                 <div class="mb-3">
                     <label for="username" class="form-label">Felhasználónév</label>
-                    <input type="text" class="form-control" name="email">
+                    <input type="text" class="form-control" name="username">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Jelszó</label>
@@ -52,25 +51,25 @@
                 <button name="login_user" type="submit" class="btn btn-primary">Bejelentkezés</button>
                 <div>
                     <h6>Nincs még regisztrációja?</h6>
-                    <a class="btn btn-primary" href="register.php" role="button">Regisztráció</a>
+                    <a class="btn btn-primary" href="register_user.php" role="button">Regisztráció</a>
                 </div>
             </form>
         </div>
         <div class="col-sm">
-            <h2>Bejelentkezés cégként</h2>
-            <form>
+            <h2>Bejelentkezés cegkent</h2>
+            <form action="login_ceg_backend.php" method ="post">
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email cím</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" class="form-control" name="email">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Jelszó</label>
-                    <input type="password" class="form-control" id="password">
+                    <input type="password" class="form-control" name="password">
                 </div>
-                <button type="submit" class="btn btn-primary">Bejelentkezés</button>
+                <button name="login_ceg" type="submit" class="btn btn-primary">Bejelentkezés</button>
                 <div>
-                    <h6>Nem regisztrálta még cégét?</h6>
-                    <a class="btn btn-primary" href="ceg_regist.php" role="button">Regisztráció</a>
+                    <h6>Nincs még regisztrációja?</h6>
+                    <a class="btn btn-primary" href="register_ceg.php" role="button">Regisztráció</a>
                 </div>
             </form>
         </div>
