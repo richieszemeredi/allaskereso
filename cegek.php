@@ -19,10 +19,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav w-100">
                 <li class="nav-item">
-                    <a class="nav-link active" href="allasok.php">Állások</a>
+                    <a class="nav-link" href="allasok.php">Állások</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="cegek.php">Cégek</a>
+                    <a class="nav-link active" href="cegek.php">Cégek</a>
                 </li>
                 <?php
                 if (isset($_SESSION['felhasznalo'])) {
@@ -38,12 +38,6 @@
 </nav>
 <div class="container">
 
-<h1>Üdvözüljük álláskereső oldalunkon!</h1>
-<p>Válogasson kedve szerint a meghirdetett állások listájából!<br>
-Nálunk csak ellenörzött vállalkozások hirdetnek!
-</p>
-<p>Ammenyiben szeretne állásra jelentkezni, vagy
-új állást meghirdetni kérjük jelentkezzen be!</p>
 </div>
 </body>
 </html>

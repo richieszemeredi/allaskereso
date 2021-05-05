@@ -37,13 +37,40 @@
     </div>
 </nav>
 <div class="container">
+    <form action="addAllas.php">
+        <div class="mb-3">
+            <label for="allasNev" class="form-label">Állás neve</label>
+            <input type="text" class="form-control" id="allasNev">
+        </div>
+         <div class="mb-3">
+            <label for="ervId" class="form-label">Érvényességi idő</label>
+            <input type="text" class="form-control" id="ervId">
+        </div>
+         <div class="mb-3">
+            <label for="varosNev" class="form-label">Város neve</label>
+            <input type="text" class="form-control" id="varosNev">
+        </div>
+         <div class="mb-3">
+            <label for="hirdeto" class="form-label">Állás neve</label>
+            <input type="text" class="form-control" id="allasNev">
+        </div>
+        <button type="submit" class="btn btn-primary">Bejelentkezés</button>
+    </form>
 
-<h1>Üdvözüljük álláskereső oldalunkon!</h1>
-<p>Válogasson kedve szerint a meghirdetett állások listájából!<br>
-Nálunk csak ellenörzött vállalkozások hirdetnek!
-</p>
-<p>Ammenyiben szeretne állásra jelentkezni, vagy
-új állást meghirdetni kérjük jelentkezzen be!</p>
+    <?php
+    require_once "db/Database.php";
+    require_once "dao/AllasDAOImpl.php";
+
+    $conn = Database::getInstance()->getConnection();
+
+    function makeAllas() {
+        $allas = new Allas();
+        $allas.setNev($_REQUEST['allasNev']);
+        $allasDAO = new AllasDAOImpl();
+
+        $allasDAO.createAllas($allas);
+    }
+    ?>
 </div>
 </body>
 </html>
