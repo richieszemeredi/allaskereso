@@ -50,25 +50,28 @@
             <label for="varosNev" class="form-label">Város neve</label>
             <input type="text" class="form-control" id="varosNev">
         </div>
-         <div class="mb-3">
-            <label for="hirdeto" class="form-label">Állás neve</label>
-            <input type="text" class="form-control" id="allasNev">
-        </div>
-        <button type="submit" class="btn btn-primary">Bejelentkezés</button>
+        <button type="submit" class="btn btn-primary">Álláshírdetés feladása</button>
     </form>
 
     <?php
     require_once "db/Database.php";
     require_once "dao/AllasDAOImpl.php";
 
-    $conn = Database::getInstance()->getConnection();
+    if (isset($_POST['createAllas'])) {
+        makeAllas();
+    }
 
     function makeAllas() {
-        $allas = new Allas();
-        $allas.setNev($_REQUEST['allasNev']);
+
+        $allasNev = $_POST['allas_nev'];
+        $ervenyessegi_ido = $_POST['ervenyessegi_ido'];
+
+        $allas = new Allas($allasNev, $ervenyessegi_ido, new AllasTipus("teszt", 1), new Ceg("tesztCeg", 1), new Varos(1, "TesztVaros", 1337));
+
         $allasDAO = new AllasDAOImpl();
 
-        $allasDAO.createAllas($allas);
+        $allasDAO->createAllas($allas);
+
     }
     ?>
 </div>

@@ -43,7 +43,7 @@
             <form action="login.php" method ="post">
                 <div class="mb-3">
                     <label for="username" class="form-label">Email cím</label>
-                    <input type="email" class="form-control" id="username">
+                    <input type="email" class="form-control" id="email">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Jelszó</label>
