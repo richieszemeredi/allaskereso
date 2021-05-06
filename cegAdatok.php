@@ -79,6 +79,7 @@ function getTorles(Felhasznalo $user, Allas $allas): string
                     <input name="allasID" type="hidden" value="' . $allas->getId() . '">
                     <input name="userID" type="hidden" value="' . $user->getId() . '">
                     <input value="Törlés" type="submit" name="jelentkezes_torles" class="btn btn-danger btn-sm rounded-0 fa fa-edit">
+                    <input value="Elfogadás" type="submit" name="jelentkezes_torles" class="btn btn-success btn-sm rounded-0 fa fa-edit">
                 </form>
               ';
         }

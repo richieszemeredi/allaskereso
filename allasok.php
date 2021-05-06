@@ -36,7 +36,6 @@ require_once 'controller/AllasController.php';
         echo '<table class="table table-hover">
         <th>
             <tr>
-                <td scope="col">Állás ID</td>
                 <td scope="col">Állás név</td>
                 <td scope="col">Érvényességi idő</td>
                 <td scope="col">Város neve</td>
@@ -47,7 +46,6 @@ require_once 'controller/AllasController.php';
         /** @var Allas $allas */
         foreach ($allasok as $allas) {
             echo '<tr>';
-            echo '<td scope="row">' . $allas->getId() . '</td>';
             echo '<td>' . $allas->getNev() . '</td>';
             echo '<td>' . $allas->getErvenyessegiIdo() . '</td>';
             echo '<td>' . ((!is_null($allas->getVaros())) ? $allas->getVaros()->getNev() : $emptyString) . '</td>';

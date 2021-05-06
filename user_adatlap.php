@@ -30,11 +30,11 @@ if (isset($_GET['userID'])) {
             <input disabled class="form-control" type="text" name="username" value="<?php if ($user) echo $user->getNev() ?>">
         </div>
         <div class="mb-3">
-            <label>Email</label>
+            <label>E-mail</label>
             <input disabled class="form-control" type="email" name="email" value="<?php if ($user) echo $user->getEmail() ?>">
         </div>
         <div class="mb-3">
-            <label class="form-label">Önéletrajt URL</label>
+            <label class="form-label">Önéletrajz URL</label>
             <input disabled class="form-control" type="text" name="oneletrajz" value="<?php if ($user) echo $user->getOneletrajz() ?>">
         </div>
         <div class="mb-3">
