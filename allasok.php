@@ -12,15 +12,16 @@
 <?php
 session_start();
 require_once 'navigation.php';
+require_once 'controller/AllasController.php';
 
 ?>
 <div class="container">
-<a class="btn btn-primary" href="addAllas.php">Állás hozzáadása</a>
     <?php
 
     require_once "db/Database.php";
     require_once "dao/FelhasznaloDAOImpl.php";
     require_once "dao/AllasDAOImpl.php";
+    require_once 'allasok_backend.php';
 
     $conn = Database::getInstance()->getConnection();
     buildAllasTable();
@@ -40,6 +41,7 @@ require_once 'navigation.php';
                 <td scope="col">Érvényességi idő</td>
                 <td scope="col">Város neve</td>
                 <td scope="col">Hirdető neve</td>
+                <td></td>
             </tr>
         </th>';
         /** @var Allas $allas */
@@ -50,9 +52,25 @@ require_once 'navigation.php';
             echo '<td>' . $allas->getErvenyessegiIdo() . '</td>';
             echo '<td>' . ((!is_null($allas->getVaros())) ? $allas->getVaros()->getNev() : $emptyString) . '</td>';
             echo '<td>' . ((!is_null($allas->getHirdeto())) ? $allas->getHirdeto()->getNev() : $emptyString) . '</td>';
+            echo '<td>' .getJelentkezes($allas). '</td>';
             echo '</tr>';
         }
         echo '</table>';
+    }
+
+    function getJelentkezes(Allas $allas) {
+        if (AuthController::getInstance()->isFelhasznaloLoggedIn()) {
+            $user = AuthController::getInstance()->getCurrentFelhasznalo();
+            if (AllasController::getInstance()->hasJelentkezes($allas, $user)) {
+                return "";
+            }
+        }
+        return '
+                <form method="post">
+                    <input name="allasID" type="hidden" value="'.$allas->getId().'">
+                    <input value="Jelentkezés" type="submit" name="allas_jelentkezes" class="btn btn-success btn-sm rounded-0 fa fa-edit">
+                </form>
+              ';
     }
 
     ?>

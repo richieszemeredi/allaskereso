@@ -47,13 +47,16 @@ class CegDAOImpl implements CegDAO
 
     public function getCeg(int|string $id): Ceg | bool
     {
-        if (is_int($id)) {
-            $sql = 'SELECT * FROM Ceg WHERE Ceg_ID = '.$id;
+        $getCeg = 'SELECT * FROM Ceg WHERE Ceg_ID = :id OR CEG_EMAIL = :email';
+        $parsed = oci_parse($this->conn, $getCeg);
+        // Kicsit butus a bind, azt ha nem szám az input akkor itt dob egy csunya warningot
+        if (is_numeric($id)) {
+            oci_bind_by_name($parsed, 'id', $id);
         } else {
-            $sql = 'SELECT * FROM Ceg WHERE CEG_EMAIL = \''.$id.'\'';
+            $i = 0;
+            oci_bind_by_name($parsed, 'id', $i);
         }
-
-        $parsed = oci_parse($this->conn, $sql);
+        oci_bind_by_name($parsed, 'email', $id);
         oci_execute($parsed);
         $result = oci_fetch_array($parsed);
         if (!$result) {

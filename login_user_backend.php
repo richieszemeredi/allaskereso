@@ -25,7 +25,7 @@ if (isset($_POST['login_user'])) {
         $password = md5($password);
         $felhasznalo = $felhasznaloDAO->getFelhasznalo($username);
         if ($felhasznalo && $felhasznalo->isPasswordValid($password)) {
-            $_SESSION['felhasznalo'] = serialize($felhasznalo);
+            AuthController::getInstance()->setCurrentFelhasznalo($felhasznalo);
             header('location: index.php');
         } else {
             array_push($errors, "Rossz felhasználónév/jelszó kombináció");

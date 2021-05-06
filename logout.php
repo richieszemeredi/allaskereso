@@ -1,8 +1,7 @@
 <?php
+require_once 'controller/AuthController.php';
 
-session_start();
-
-unset($_SESSION['felhasznalo']);
-unset($_SESSION['ceg']);
+AuthController::getInstance()->logoutCurrentCeg();
+AuthController::getInstance()->logOutCurrentFelhasznalo();
 
 header('Location: index.php');

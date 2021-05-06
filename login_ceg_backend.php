@@ -23,7 +23,7 @@ if (isset($_POST['login_ceg'])) {
         $password = md5($password);
         $ceg = $cegDAO->getCeg($email);
         if ($ceg && $ceg->isPasswordValid($password)) {
-            $_SESSION['ceg'] = serialize($ceg);
+            AuthController::getInstance()->setCurrentCeg($ceg);
             header('location: index.php');
         } else {
             array_push($errors, "Rossz e-mail/jelszó kombináció");
