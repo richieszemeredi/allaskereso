@@ -9,7 +9,11 @@
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
 <body>
-<?php include 'navigation.php'; ?>
+<?php
+session_start();
+require_once 'navigation.php';
+
+?>
 <div class="container">
 <a class="btn btn-primary" href="addAllas.php">Állás hozzáadása</a>
     <?php

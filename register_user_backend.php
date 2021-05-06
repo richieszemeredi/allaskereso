@@ -1,13 +1,12 @@
 <?php
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 require_once "db/Database.php";
 require_once "dao/FelhasznaloDAOImpl.php";
 
-// initializing variables
-$username = "";
-$email    = "";
-$errors = array();
+$errors = [];
 
 $db = Database::getInstance()->getConnection();
 $felhasznaloDAO = new FelhasznaloDAOImpl();
@@ -22,21 +21,21 @@ if (isset($_POST['reg_user'])) {
     $oneletrajz = $_POST['oneletrajz'];
     $date = $_POST['szul_date'];
 
-    if (empty($username)) { array_push($errors, "Username is required"); }
-    if (empty($email)) { array_push($errors, "Email is required"); }
-    if (empty($password_1)) { array_push($errors, "Password is required"); }
+    if (empty($username)) { array_push($errors, "A felhasználónév kötelező"); }
+    if (empty($email)) { array_push($errors, "Az e-mail kötelező"); }
+    if (empty($password_1)) { array_push($errors, "A jelszó kötelező"); }
     if (empty($date)) { array_push($errors, "A születési dátum kötelező"); }
 
     if ($password_1 != $password_2) {
-        array_push($errors, "The two passwords do not match");
+        array_push($errors, "A két jelszó nem egyezik!");
     }
 
     if ($felhasznaloDAO->felhasznaloExists($username)) {
-        array_push($errors, "Username already exists");
+        array_push($errors, "Ez a felhasználónév már létezik");
     }
 
     if ($felhasznaloDAO->felhasznaloExists($email)) {
-        array_push($errors, "email already exists");
+        array_push($errors, "Ez az e-mail már létezik");
     }
 
     if (count($errors) == 0) {
@@ -48,7 +47,6 @@ if (isset($_POST['reg_user'])) {
 
         if ($felhasznalo) {
             $_SESSION['felhasznalo'] = serialize($felhasznalo);
-            $_SESSION['success'] = "You are now logged in";
             header('location: index.php');
         }
     }

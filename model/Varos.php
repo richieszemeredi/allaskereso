@@ -5,19 +5,16 @@ class Varos
 {
     private ?int $id;
     private string $nev;
-    private int $iranyitoszam;
 
     /**
      * Varos constructor.
      * @param int|null $id
      * @param string $nev
-     * @param int $iranyitoszam
      */
-    public function __construct(?int $id, string $nev, int $iranyitoszam)
+    public function __construct(?int $id, string $nev)
     {
         $this->id = $id;
         $this->nev = $nev;
-        $this->iranyitoszam = $iranyitoszam;
     }
 
     /**
@@ -50,22 +47,6 @@ class Varos
     public function setNev(string $nev): void
     {
         $this->nev = $nev;
-    }
-
-    /**
-     * @return int
-     */
-    public function getIranyitoszam(): int
-    {
-        return $this->iranyitoszam;
-    }
-
-    /**
-     * @param int $iranyitoszam
-     */
-    public function setIranyitoszam(int $iranyitoszam): void
-    {
-        $this->iranyitoszam = $iranyitoszam;
     }
 
     public function isValid(): bool {

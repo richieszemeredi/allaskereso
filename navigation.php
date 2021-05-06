@@ -1,4 +1,12 @@
 <?php
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+require_once 'model/Ceg.php';
+require_once 'model/Felhasznalo.php';
+
 echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">Álláskereső</a>
@@ -19,7 +27,6 @@ echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 </li>'
                 
                 ;
-                
                 if (isset($_SESSION['felhasznalo'])) {
                     $felhasznalo = unserialize($_SESSION['felhasznalo']);
                     echo '<li style="margin-left: auto"><a class="nav-link" href="logout.php">' . $felhasznalo->getNev() . '</a></li>';

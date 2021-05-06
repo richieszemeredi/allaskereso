@@ -1,6 +1,5 @@
 
 <!DOCTYPE html>
-<?php include('addAllas_backend.php'); ?>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,10 +10,17 @@
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
 <body>
-<?php include 'navigation.php'; ?>
+<?php
+
+include 'navigation.php';
+include 'addAllas_backend.php';
+
+$allasTipusDAO = new AllasTipusDAOImpl();
+$allasTipusok = $allasTipusDAO->getAllAllasTipus();
+
+?>
 <div class="container">
-    <?php include('errors.php'); ?>
-    <form action="addAllas_backend.php" method="post">
+    <form method="post">
         <div class="mb-3">
             <label for="allasNev" class="form-label">Állás neve</label>
             <input type="text" class="form-control" id="allasNev" name="allasNev" required>
@@ -27,8 +33,19 @@
             <label for="varosNev" class="form-label">Város neve</label>
             <input type="text" class="form-control" id="varosNev" name="varosNev" required>
         </div>
-        <button name="createAllas" type="submit" class="btn btn-primary">Álláshírdetés feladása</button>
+        <label for="allasTipus" class="form-label">Állás típus</label>
+        <select id="allasTipus" name="allasTipus" class="form-control form-select">
+            <?php
+
+            /** @var AllasTipus $allasTipus */
+            foreach ($allasTipusok as $allasTipus) {
+                    echo '<option value="'.$allasTipus->getId().'">'.$allasTipus->getNev().'</option>';
+                }
+            ?>
+        </select>
+        <button name="createAllas" type="submit" class="mt-2 btn btn-primary">Álláshírdetés feladása</button>
     </form>
 </div>
+<?php include('errors.php'); ?>
 </body>
 </html>

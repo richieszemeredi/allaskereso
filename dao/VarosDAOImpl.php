@@ -15,11 +15,19 @@ class VarosDAOImpl implements VarosDAO
         $this->conn = $this->db->getConnection();
     }
 
-    public function getVaros(int|string $iranyitoSzamVagyNev): Varos | bool {
-        $parsed = oci_parse($this->conn, $this->getVarosSQL." WHERE VAROS_ID = :id OR VAROSNEV = :nev OR IRANYITOSZAM = :szam");
-        oci_bind_by_name($parsed, 'id', $iranyitoSzamVagyNev);
-        oci_bind_by_name($parsed, 'nev', $iranyitoSzamVagyNev);
-        oci_bind_by_name($parsed, 'szam', $iranyitoSzamVagyNev);
+    public function getVaros($idVagyNev): Varos | bool {
+        $getVaros = $this->getVarosSQL.' WHERE VAROSNEV = :nev OR VAROS_ID = :id';
+        $parsed = oci_parse($this->conn, $getVaros);
+
+        // Kicsit butus a bind, azt ha nem szám az input akkor itt dob egy csunya warningot
+        if (is_numeric($idVagyNev)) {
+            oci_bind_by_name($parsed, 'id', $idVagyNev);
+        } else {
+            $i = 0;
+            oci_bind_by_name($parsed, 'id', $i);
+        }
+
+        oci_bind_by_name($parsed, 'nev', $idVagyNev);
         oci_execute($parsed);
         $varosResult = oci_fetch_array($parsed);
         if ($varosResult) {
@@ -44,7 +52,6 @@ class VarosDAOImpl implements VarosDAO
     private function createVarosFromResult($result) : Varos {
         $varosID = $result['VAROS_ID'];
         $varosNev = $result['VAROSNEV'];
-        $iranyitoSzam = $result['IRANYITOSZAM'];
-        return new Varos($varosID, $varosNev, $iranyitoSzam);
+        return new Varos($varosID, $varosNev);
     }
 }

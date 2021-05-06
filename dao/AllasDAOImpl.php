@@ -14,12 +14,11 @@ class AllasDAOImpl implements AllasDAO
     private $conn;
     private $selectAllasSQL =  'SELECT DISTINCT allasok.allas_id AS ALLASID,
                                     allasok.allas_nev AS ALLASNEV, 
-                                    allasok.ervenyessegi_ido AS ERVENYESSEGIIDO,
+                                    TO_CHAR(allasok.ervenyessegi_ido, \'YYYY/MM/DD\') AS ERVENYESSEGIIDO,
                                     allastipus.TIPUS_ID AS TIPUSID, 
                                     ALLASTIPUS.TIPUS_NEV AS TIPUSNEV,
                                     VAROS.VAROS_ID AS VAROSID, 
                                     VAROS.VAROS_NEV AS VAROSNEV, 
-                                    VAROS.IRANYITOSZAM AS IRANYITOSZAM,
                                     KOVETELMENYEK.KOV_ID AS KOVID, 
                                     KOVETELMENYEK.KOV_NEV AS KOVNEV,
                                     CEG.CEG_ID AS CEGID, 
@@ -29,7 +28,7 @@ class AllasDAOImpl implements AllasDAO
                                 FROM ALLASOK
                                     LEFT JOIN (SELECT VANTIPUS.ALLAS_ID AS ALLAS_ID, ALLASTIPUS.TIPUS_ID AS TIPUS_ID, ALLASTIPUS.TIPUS_NEV AS TIPUS_NEV FROM VANTIPUS LEFT JOIN ALLASTIPUS ON VANTIPUS.TIPUS_ID = ALLASTIPUS.TIPUS_ID) ALLASTIPUS
                                         ON allastipus.allas_id = ALLASOK.ALLAS_ID
-                                    LEFT JOIN (SELECT ELOFORDUL.ALLAS_ID AS ALLAS_ID, VAROSOK.VAROS_ID AS VAROS_ID, VAROSOK.VAROSNEV AS VAROS_NEV, VAROSOK.IRANYITOSZAM AS IRANYITOSZAM FROM ELOFORDUL LEFT JOIN VAROSOK ON ELOFORDUL.VAROS_ID = VAROSOK.VAROS_ID) VAROS
+                                    LEFT JOIN (SELECT ELOFORDUL.ALLAS_ID AS ALLAS_ID, VAROSOK.VAROS_ID AS VAROS_ID, VAROSOK.VAROSNEV AS VAROS_NEV FROM ELOFORDUL LEFT JOIN VAROSOK ON ELOFORDUL.VAROS_ID = VAROSOK.VAROS_ID) VAROS
                                         ON VAROS.allas_id = ALLASOK.ALLAS_ID
                                     LEFT JOIN (SELECT FELTETELE.ALLAS_ID AS ALLAS_ID, KOVETELMENYEK.KOV_ID AS KOV_ID, KOVETELMENYEK.KOV_NEV AS KOV_NEV FROM FELTETELE LEFT JOIN KOVETELMENYEK ON FELTETELE.KOV_ID = KOVETELMENYEK.KOV_ID) KOVETELMENYEK
                                         ON KOVETELMENYEK.allas_id = ALLASOK.ALLAS_ID
@@ -45,7 +44,7 @@ class AllasDAOImpl implements AllasDAO
     public function createAllas(Allas $allas): Allas | bool
     {
         $allasSQL = "INSERT INTO ALLASOK(ALLAS_NEV, ERVENYESSEGI_IDO)
-                VALUES (:nev, TO_TIMESTAMP(:ido, 'YY-MM-DD')) RETURNING ALLAS_ID INTO :allasID";
+                VALUES (:nev, TO_TIMESTAMP(:ido, 'YYYY/MM/DD')) RETURNING ALLAS_ID INTO :allasID";
         $allasNev = $allas->getNev();   
         $ido = $allas->getErvenyessegiIdo();
         $allasParsed = oci_parse($this->conn, $allasSQL);
@@ -145,7 +144,7 @@ class AllasDAOImpl implements AllasDAO
             $allas->setHirdeto(new Ceg($resultArr['CEGNEV'],$resultArr['CEGEMAIL'], $resultArr['CEGJELSZO'], $resultArr['CEGID']));
         }
         if($this->hasVaros($resultArr)) {
-            $allas->setVaros(new Varos($resultArr['VAROSID'], $resultArr['VAROSNEV'], $resultArr['IRANYITOSZAM']));
+            $allas->setVaros(new Varos($resultArr['VAROSID'], $resultArr['VAROSNEV']));
         }
         if($this->hasKovetelmeny($resultArr)) {
             $allas->setKovetelmeny(new Kovetelmeny($resultArr['KOVID'], $resultArr['KOVNEV']));

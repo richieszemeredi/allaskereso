@@ -7,20 +7,25 @@
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
 <body>
-<?php include 'navigation.php'; ?>
+<?php
+
+include 'navigation.php';
+include 'login_user_backend.php';
+include 'login_ceg_backend.php';
+
+?>
 <div class="container pt-5">
-    <?php include('errors.php'); ?>
     <div class="row">
         <div class="col-sm">
             <h2>Bejelentkezés álláskeresőként</h2>
-            <form action="login_user_backend.php" method ="post">
+            <form autocomplete="off" action="login.php" method ="post">
                 <div class="mb-3">
                     <label for="username" class="form-label">Felhasználónév</label>
-                    <input type="text" class="form-control" name="username">
+                    <input type="text" class="form-control" name="username" autocomplete="username">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Jelszó</label>
-                    <input type="password" class="form-control" name="password">
+                    <input type="password" class="form-control" name="password" autocomplete="new-password">
                 </div>
                 <button name="login_user" type="submit" class="btn btn-primary">Bejelentkezés</button>
                 <div>
@@ -31,14 +36,14 @@
         </div>
         <div class="col-sm">
             <h2>Bejelentkezés cegkent</h2>
-            <form action="login_ceg_backend.php" method ="post">
+            <form autocomplete="off" action="login.php" method ="post">
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control" name="email">
+                    <label for="ceg-email" class="form-label">Email</label>
+                    <input id="ceg-email" type="email" class="form-control" name="ceg-email" autocomplete="ceg-email">
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Jelszó</label>
-                    <input type="password" class="form-control" name="password">
+                    <label for="ceg-pw" class="form-label">Jelszó</label>
+                    <input id="ceg-pw" type="password" class="form-control" name="ceg-pw" autocomplete="new-password">
                 </div>
                 <button name="login_ceg" type="submit" class="btn btn-primary">Bejelentkezés</button>
                 <div>
@@ -48,6 +53,9 @@
             </form>
         </div>
     </div>
+</div>
+<div class="container text-center mt-5">
+    <?php include('errors.php'); ?>
 </div>
 </body>
 </html>

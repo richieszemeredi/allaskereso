@@ -114,11 +114,12 @@ class FelhasznaloDAOImpl implements FelhasznaloDAO
 
     public function felhasznaloExists(string $email_or_name): bool
     {
-        $sql = "SELECT * FROM FELHASZNALO WHERE FELHASZNALO_NEV = '$email_or_name' OR FELHASZNALO_EMAIL = '$email_or_name'";
+        $sql = "SELECT * FROM FELHASZNALO WHERE FELHASZNALO_NEV = :nev OR FELHASZNALO_EMAIL = :email";
         $parsed = oci_parse($this->conn, $sql);
+        oci_bind_by_name($parsed, "nev", $email_or_name);
+        oci_bind_by_name($parsed, "email", $email_or_name);
         oci_execute($parsed);
-        $rowNum = oci_num_rows($parsed);
-        if ($rowNum > 0) {
+        if (oci_fetch_array($parsed)) {
             return true;
         }
         return false;

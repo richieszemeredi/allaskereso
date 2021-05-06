@@ -14,35 +14,31 @@
 
 <?php
 
-    require_once "db/Database.php";
     require_once "dao/FelhasznaloDAOImpl.php";
 
-    $conn = Database::getInstance()->getConnection();
     buildFelhasznaloTable();
 
     function buildFelhasznaloTable()
     {
         $felhasznaloDAO = new FelhasznaloDAOImpl();
 
-        $emptyString = "none";
 
         $felhasznalok = $felhasznaloDAO->getAllFelhasznalo();
         echo '<table class="table table-hover">
-        <th>
-            <tr>
-                <td scope="col">Felhasznalo ID</td>
-                <td scope="col">Felhasznalo név</td>
-            </tr>
-        </th>';
-        foreach ($felhasznalok as $felhasznalo) {
-            echo '<tr>';
-            echo '<td scope="row">' . $felhasznalo->getId() . '</td>';
-            echo '<td>' . $felhasznalo->getNev() . '</td>';
-            echo '</tr>';
+        <tr>
+            <td scope="col">Felhasznalo ID</td>
+            <td scope="col">Felhasznalo név</td>
+        </tr>';
+        if ($felhasznalok) {
+            foreach ($felhasznalok as $felhasznalo) {
+                echo '<tr>';
+                echo '<td>' . $felhasznalo->getId() . '</td>';
+                echo '<td>' . $felhasznalo->getNev() . '</td>';
+                echo '</tr>';
+            }
+            echo '</table>';
         }
-        echo '</table>';
     }
-
     ?>
 
 </div>

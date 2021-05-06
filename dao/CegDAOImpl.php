@@ -50,7 +50,7 @@ class CegDAOImpl implements CegDAO
         if (is_int($id)) {
             $sql = 'SELECT * FROM Ceg WHERE Ceg_ID = '.$id;
         } else {
-            $sql = 'SELECT * FROM Ceg WHERE CEG_NEV = \''.$id.'\'';
+            $sql = 'SELECT * FROM Ceg WHERE CEG_EMAIL = \''.$id.'\'';
         }
 
         $parsed = oci_parse($this->conn, $sql);
@@ -59,7 +59,7 @@ class CegDAOImpl implements CegDAO
         if (!$result) {
             return false;
         }
-        return new Ceg($result['CEG_NEV'], $result['CEG_EMAIL'], $result['CEG_JELSZO'],   $result['CEG_ID']);
+        return new Ceg($result['CEG_NEV'], $result['CEG_EMAIL'], $result['CEG_JELSZO'], $result['CEG_ID']);
     }
 
     public function getAllCeg(): array | bool
@@ -108,11 +108,12 @@ class CegDAOImpl implements CegDAO
 
     public function cegExists(string $email_or_name): bool
     {
-        $sql = "SELECT * FROM CEG WHERE CEG_NEV = '$email_or_name' OR CEG_EMAIL = '$email_or_name'";
+        $sql = "SELECT * FROM CEG WHERE CEG_NEV = :nev OR CEG_EMAIL = :email";
         $parsed = oci_parse($this->conn, $sql);
+        oci_bind_by_name($parsed, "nev", $email_or_name);
+        oci_bind_by_name($parsed, "email", $email_or_name);
         oci_execute($parsed);
-        $rowNum = oci_num_rows($parsed);
-        if ($rowNum > 0) {
+        if (oci_fetch_array($parsed)) {
             return true;
         }
         return false;
