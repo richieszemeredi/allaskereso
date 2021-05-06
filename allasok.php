@@ -59,16 +59,16 @@ require_once 'controller/AllasController.php';
     function getJelentkezes(Allas $allas) {
         if (AuthController::getInstance()->isFelhasznaloLoggedIn()) {
             $user = AuthController::getInstance()->getCurrentFelhasznalo();
-            if (AllasController::getInstance()->hasJelentkezes($allas, $user)) {
-                return "";
-            }
-        }
-        return '
+            if (!AllasController::getInstance()->hasJelentkezes($allas, $user)) {
+                return '
                 <form method="post">
                     <input name="allasID" type="hidden" value="'.$allas->getId().'">
                     <input value="Jelentkezés" type="submit" name="allas_jelentkezes" class="btn btn-success btn-sm rounded-0 fa fa-edit">
                 </form>
               ';
+            }
+        }
+        return '';
     }
 
     ?>

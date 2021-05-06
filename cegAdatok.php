@@ -18,21 +18,36 @@ if (isset($_GET['cegID'])) {
     }
 }
 
+$readonly = !isset($_GET['edit']) || !$ceg || !AuthController::getInstance()->isCegLoggedIn() || $ceg->getId() != AuthController::getInstance()->getCurrentCeg()->getId();
+
 ?>
 
 <div class="container">
     <h2>Cég adatai</h2>
     <form method="post">
+        <input type="hidden" name="cegID" value="<?php echo $ceg->getId() ?>">
         <div class="mb-3">
             <label class="form-label" for="cegNev">Cég neve</label>
-            <input class="form-control" type="text" id="cegNev" name="cegNev" autocomplete="cegNev" disabled value="<?php echo $ceg->getNev() ?>">
+            <input <?php if ($readonly) echo 'disabled'?> class="form-control" type="text" id="cegNev" name="cegNev" autocomplete="cegNev" value="<?php echo $ceg->getNev() ?>">
         </div>
         <div class="mb-3">
             <label class="form-label" for="cegMail">Cég e-mail címe</label>
-            <input class="form-control" type="email" id="cegMail" autocomplete="cegMail" name="cegMail" disabled value="<?php echo $ceg->getEmail() ?>">
+            <input <?php if ($readonly) echo 'disabled'?> class="form-control" type="email" id="cegMail" autocomplete="cegMail" name="cegMail" value="<?php echo $ceg->getEmail() ?>">
+        </div>
+        <div <?php if ($readonly) echo 'style="display:none"'?> class="mb-3">
+            <input class="btn btn-success" type="submit" name="ceg_modositas" value="Mentés">
         </div>
     </form>
-    <?php buildAllasTable($ceg); ?>
+    <form method="get">
+        <div <?php if (!$readonly) echo 'style="display:none"'?> class="mb-3">
+            <input type="hidden" name="edit" value="">
+            <button class="btn btn-secondary" type="submit">Szerkesztés</button>
+        </div>
+    </form>
+    <?php
+    require_once 'errors.php';
+    buildAllasTable($ceg);
+    ?>
 </div>
 
 <?php
@@ -51,6 +66,7 @@ echo '
             <td scope="col">Állás név</td>
             <td scope="col">Jelentkező ID</td>
             <td scope="col">Jelentkező Neve</td>
+            <td scope="col">Önéletrajz URL</td>
             <td scope="col"></td>
         </tr>';
         /** @var AllasJelentkezes $jelentkezes */
@@ -58,10 +74,11 @@ echo '
             $user = $jelentkezes->getJelentkezo();
             $allas = $jelentkezes->getAllas();
             echo '<tr>';
-                echo '<td scope="row">' . $allas->getId() . '</td>';
+                echo '<td>' . $allas->getId() . '</td>';
                 echo '<td>' . $allas->getNev() . '</td>';
                 echo '<td>' . $user->getId() . '</td>';
                 echo '<td>' . $user->getNev() . '</td>';
+                echo '<td>' . getOneletrajz($user) . '</td>';
                 echo '<td>' .getTorles($user, $allas). '</td>';
                 echo '</tr>';
         }
@@ -69,6 +86,13 @@ echo '
     echo '</div>';
 }
 
+function getOneletrajz(Felhasznalo $user) {
+    $oneletrajz = $user->getOneletrajz();
+    if (empty($oneletrajz) || 1 >= strlen($oneletrajz)) {
+        return "Nincs";
+    }
+    return $user->getOneletrajz();
+}
 function getTorles(Felhasznalo $user, Allas $allas): string
 {
     if (AuthController::getInstance()->isCegLoggedIn()) {

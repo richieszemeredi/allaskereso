@@ -20,7 +20,7 @@ class FelhasznaloDAOImpl implements FelhasznaloDAO
         $nev = $felhasznalo->getNev();
         $email = $felhasznalo->getEmail();
         $pw = $felhasznalo->getHashedJelszo();
-        $oneletrajz = $felhasznalo->getOneletrajz();
+        $oneletrajz = ($felhasznalo->getOneletrajz() != null) ? $felhasznalo->getOneletrajz() : "";
         $szuldatum = $felhasznalo->getSzulDatum();
 
         oci_bind_by_name($parsed, "nev", $nev);
@@ -94,13 +94,12 @@ class FelhasznaloDAOImpl implements FelhasznaloDAO
                 FELHASZNALO_EMAIL = :email,
                 FELHASZNALO_JELSZO = :pw,
                 ONELETRAJZ_URL = :oneletrajz,
-                SZUL_DATUM = :szuldatum
-                WHERE FELHASZNALO_ID = :id';
+                SZUL_DATUM = TO_TIMESTAMP(:szul, \'YYYY-MM-DD\')
+                WHERE FELHASZNALO_ID = :userID';
 
         $parsed = oci_parse($this->conn, $sql);
+        oci_bind_by_name($parsed, "userID", $id);
         $this->bindFelhasznalo($parsed, $felhasznalo);
-        $id = $felhasznalo->getId();
-        oci_bind_by_name($parsed, "id", $id);
         return oci_execute($parsed);
     }
 

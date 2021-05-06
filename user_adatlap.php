@@ -20,29 +20,43 @@ if (isset($_GET['userID'])) {
     }
 }
 
+$readonly = !isset($_GET['edit']) || !$user || !AuthController::getInstance()->isFelhasznaloLoggedIn() || $user->getId() != AuthController::getInstance()->getCurrentFelhasznalo()->getId();
+
 ?>
 
 <div class="container">
     <h2><?php if ($user) echo $user->getNev(); else echo "Senki" ?> adatlapja</h2>
-    <form method="post" action="register_user.php">
+    <form method="post">
+        <input type="hidden" name="userID" value="<?php if ($user) echo $user->getId() ?>">
         <div class="mb-3">
             <label class="form-label" for="nev">Név</label>
-            <input disabled class="form-control" type="text" name="username" value="<?php if ($user) echo $user->getNev() ?>">
+            <input <?php if ($readonly) echo 'disabled'?> class="form-control" type="text" name="userNev" value="<?php if ($user) echo $user->getNev() ?>">
         </div>
         <div class="mb-3">
             <label>E-mail</label>
-            <input disabled class="form-control" type="email" name="email" value="<?php if ($user) echo $user->getEmail() ?>">
+            <input <?php if ($readonly) echo 'disabled'?> class="form-control" type="email" name="email" value="<?php if ($user) echo $user->getEmail() ?>">
         </div>
         <div class="mb-3">
             <label class="form-label">Önéletrajz URL</label>
-            <input disabled class="form-control" type="text" name="oneletrajz" value="<?php if ($user) echo $user->getOneletrajz() ?>">
+            <input <?php if ($readonly) echo 'disabled'?> class="form-control" type="text" name="oneletrajz" value="<?php if ($user) echo $user->getOneletrajz() ?>">
         </div>
         <div class="mb-3">
             <label class="form-label">Születési dátum</label>
-            <input disabled class="form-control" type="date" name="szul_date" value="<?php if ($user) echo $user->getSzulDatum() ?>">
+            <input <?php if ($readonly) echo 'disabled'?> class="form-control" type="date" name="szul_date" value="<?php if ($user) echo $user->getSzulDatum() ?>">
+        </div>
+        <div <?php if ($readonly) echo 'style="display:none"'?> class="mb-3">
+            <input class="btn btn-success" type="submit" name="user_modositas" value="Mentés">
+        </div>
+    </form>
+    <form method="get">
+        <div <?php if (!$readonly) echo 'style="display:none"'?> class="mb-3">
+            <input type="hidden" name="edit" value="">
+            <button class="btn btn-secondary" type="submit">Szerkesztés</button>
         </div>
     </form>
 </div>
+
+<?php require_once 'errors.php'?>
 
 <?php
 if ($user)

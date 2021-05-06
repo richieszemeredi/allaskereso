@@ -91,12 +91,11 @@ class CegDAOImpl implements CegDAO
         $sql = 'UPDATE Ceg SET
                 CEG_NEV = :nev,
                 CEG_EMAIL = :email,
-                CEG_JELSZO = :pw,
+                CEG_JELSZO = :pw
                 WHERE CEG_ID = :id';
 
         $parsed = oci_parse($this->conn, $sql);
         $this->bindCeg($parsed, $ceg);
-        $id = $ceg->getId();
         oci_bind_by_name($parsed, "id", $id);
         return oci_execute($parsed);
     }
