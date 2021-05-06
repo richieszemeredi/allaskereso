@@ -23,7 +23,9 @@ class AllasDAOImpl implements AllasDAO
                                     KOVETELMENYEK.KOV_ID AS KOVID, 
                                     KOVETELMENYEK.KOV_NEV AS KOVNEV,
                                     CEG.CEG_ID AS CEGID, 
-                                    CEG.CEG_NEV AS CEGNEV
+                                    CEG.CEG_NEV AS CEGNEV,
+                                    CEG.CEG_EMAIL AS CEGEMAIL,
+                                    CEG.CEG_JELSZO AS CEGJELSZO
                                 FROM ALLASOK
                                     LEFT JOIN (SELECT VANTIPUS.ALLAS_ID AS ALLAS_ID, ALLASTIPUS.TIPUS_ID AS TIPUS_ID, ALLASTIPUS.TIPUS_NEV AS TIPUS_NEV FROM VANTIPUS LEFT JOIN ALLASTIPUS ON VANTIPUS.TIPUS_ID = ALLASTIPUS.TIPUS_ID) ALLASTIPUS
                                         ON allastipus.allas_id = ALLASOK.ALLAS_ID
@@ -31,7 +33,7 @@ class AllasDAOImpl implements AllasDAO
                                         ON VAROS.allas_id = ALLASOK.ALLAS_ID
                                     LEFT JOIN (SELECT FELTETELE.ALLAS_ID AS ALLAS_ID, KOVETELMENYEK.KOV_ID AS KOV_ID, KOVETELMENYEK.KOV_NEV AS KOV_NEV FROM FELTETELE LEFT JOIN KOVETELMENYEK ON FELTETELE.KOV_ID = KOVETELMENYEK.KOV_ID) KOVETELMENYEK
                                         ON KOVETELMENYEK.allas_id = ALLASOK.ALLAS_ID
-                                    LEFT JOIN (SELECT MEGHIRDET.ALLAS_ID AS ALLAS_ID, CEG.CEG_ID AS CEG_ID, CEG.CEG_NEV AS CEG_NEV FROM MEGHIRDET LEFT JOIN CEG ON MEGHIRDET.CEG_ID = CEG.CEG_ID) CEG
+                                    LEFT JOIN (SELECT MEGHIRDET.ALLAS_ID AS ALLAS_ID, CEG.CEG_ID AS CEG_ID, CEG.CEG_NEV AS CEG_NEV, CEG.CEG_EMAIL as CEG_EMAIL, CEG.CEG_JELSZO AS CEG_JELSZO FROM MEGHIRDET LEFT JOIN CEG ON MEGHIRDET.CEG_ID = CEG.CEG_ID) CEG
                                         ON CEG.allas_id = ALLASOK.ALLAS_ID';
 
     public function __construct()
@@ -140,7 +142,7 @@ class AllasDAOImpl implements AllasDAO
             $allas->setAllastipus(new AllasTipus($resultArr['TIPUSNEV'], $resultArr['TIPUSID']));
         }
         if ($this->hasCeg($resultArr)) {
-            $allas->setHirdeto(new Ceg($resultArr['CEGNEV'], $resultArr['CEGID']));
+            $allas->setHirdeto(new Ceg($resultArr['CEGNEV'],$resultArr['CEGEMAIL'], $resultArr['CEGJELSZO'], $resultArr['CEGID']));
         }
         if($this->hasVaros($resultArr)) {
             $allas->setVaros(new Varos($resultArr['VAROSID'], $resultArr['VAROSNEV'], $resultArr['IRANYITOSZAM']));
