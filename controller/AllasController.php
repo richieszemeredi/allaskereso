@@ -82,4 +82,27 @@ class AllasController
         return $jelentkezesek;
     }
 
+    public function getCegAllasJelentkezesek(Ceg $ceg): array {
+        $allasDAO = new AllasDAOImpl();
+        $userDAO = new FelhasznaloDAOImpl();
+        $sql = 'SELECT JELENTKEZIK.ALLAS_ID, JELENTKEZIK.FELHASZNALO_ID FROM JELENTKEZIK, MEGHIRDET, CEG WHERE JELENTKEZIK.ALLAS_ID = MEGHIRDET.ALLAS_ID AND CEG.CEG_ID = MEGHIRDET.CEG_ID AND CEG.CEG_ID = :id';
+        $parsed = oci_parse($this->connection, $sql);
+        $cegID = $ceg->getId();
+        oci_bind_by_name($parsed, 'id', $cegID);
+        $jelentkezesResult = [];
+        oci_execute($parsed);
+        oci_fetch_all($parsed, $jelentkezesResult, 0, -1, OCI_FETCHSTATEMENT_BY_ROW);
+        $jelentkezesek = [];
+        foreach ($jelentkezesResult as $result) {
+            $allasID = $result['ALLAS_ID'];
+            $allas = $allasDAO->getAllas($allasID);
+            $userID = $result['FELHASZNALO_ID'];
+            $user = $userDAO->getFelhasznalo($userID);
+            if ($allas && $user) {
+                array_push($jelentkezesek, new AllasJelentkezes($allas, $user));
+            }
+        }
+        return $jelentkezesek;
+    }
+
 }

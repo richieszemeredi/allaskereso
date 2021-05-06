@@ -51,7 +51,7 @@ class FelhasznaloDAOImpl implements FelhasznaloDAO
 
     public function getFelhasznalo(int|string $id): Felhasznalo | bool
     {
-        if (is_int($id)) {
+        if (is_numeric($id)) {
             $sql = 'SELECT FELHASZNALO_ID, FELHASZNALO_NEV, FELHASZNALO_EMAIL, FELHASZNALO_JELSZO, ONELETRAJZ_URL, TO_CHAR(SZUL_DATUM, \'YYYY/MM/DD\') AS SZUL_DATUM FROM FELHASZNALO WHERE FELHASZNALO_ID = '.$id;
         } else {
             $sql = 'SELECT FELHASZNALO_ID, FELHASZNALO_NEV, FELHASZNALO_EMAIL, FELHASZNALO_JELSZO, ONELETRAJZ_URL, TO_CHAR(SZUL_DATUM, \'YYYY/MM/DD\') AS SZUL_DATUM FROM FELHASZNALO WHERE FELHASZNALO_NEV = \''.$id.'\'';
