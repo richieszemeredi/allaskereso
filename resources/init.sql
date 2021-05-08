@@ -72,3 +72,42 @@ CREATE TABLE Jelentkezik (
      CONSTRAINT Allas_Felhasznalo_fk FOREIGN KEY (Allas_ID) REFERENCES Allasok(Allas_ID) ON DELETE CASCADE,
      CONSTRAINT Felhasznalo_Allas_fk FOREIGN KEY (Felhasznalo_ID) REFERENCES Felhasznalo(Felhasznalo_ID) ON DELETE CASCADE
 );
+
+-- TRIGGEREK
+
+CREATE TABLE Logintab(
+                         nev VARCHAR(50),
+                         datum DATE
+);
+
+CREATE OR REPLACE TRIGGER Bejelent
+    AFTER LOGON ON DATABASE
+BEGIN
+    INSERT INTO Logintab VALUES(USER,SYSDATE);
+END;
+/
+
+CREATE OR REPLACE TRIGGER Logindel
+    BEFORE DROP ON SCHEMA
+DECLARE
+BEGIN
+    IF(ORA_DICT_OBJ_NAME = 'LOGINTAB') THEN
+        RAISE_APPLICATION_ERROR(-20025,'A táblát nem lehet törölni.');
+    END IF;
+END;
+/
+
+CREATE TABLE LOG(nev VARCHAR(50),Datum DATE)
+CREATE OR REPLACE TRIGGER Logout
+    BEFORE LOGOFF
+    ON Felhasznalo.Schema
+BEGIN
+    INSERT INTO LOG VALUES(USER || 'kilépett', SYSDATE);
+END;
+
+CREATE OR REPLACE TRIGGER alert
+    BEFORE INSERT
+    ON Felhasznalo
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Mindjárt hozzáadsz egy új felhasználót');
+END;
