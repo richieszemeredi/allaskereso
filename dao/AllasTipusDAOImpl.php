@@ -1,7 +1,8 @@
 <?php
 
-require_once 'AllasTipusDAO.php';
-require_once 'model/AllasTipus.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/db/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/dao/AllasTipusDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/model/AllasTipus.php';
 
 class AllasTipusDAOImpl implements AllasTipusDAO
 {

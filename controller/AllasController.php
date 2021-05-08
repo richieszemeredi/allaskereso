@@ -1,7 +1,7 @@
 <?php
 
-require_once 'dao/AllasDAOImpl.php';
-require_once 'model/AllasJelentkezes.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/dao/AllasDAOImpl.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/model/AllasJelentkezes.php';
 
 class AllasController
 {

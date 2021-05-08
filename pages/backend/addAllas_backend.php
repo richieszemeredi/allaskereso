@@ -2,11 +2,6 @@
 
 $errors = [];
 
-require_once "db/Database.php";
-require_once "dao/AllasDAOImpl.php";
-require_once "dao/VarosDAOImpl.php";
-require_once "dao/AllasTipusDAOImpl.php";
-
 if (isset($_POST['createAllas'])) {
     $varosDAO = new VarosDAOImpl();
     $allasTipusDAO = new AllasTipusDAOImpl();

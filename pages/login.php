@@ -9,9 +9,9 @@
 <body>
 <?php
 
-include 'navigation.php';
-include 'login_user_backend.php';
-include 'login_ceg_backend.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/navigation.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/backend/login_user_backend.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/backend/login_ceg_backend.php';
 
 ?>
 <div class="container pt-5">

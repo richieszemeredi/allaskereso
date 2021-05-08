@@ -1,11 +1,12 @@
 <?php
 
-require_once "AllasDAO.php";
-require_once "model/Allas.php";
-require_once "model/Ceg.php";
-require_once "model/AllasTipus.php";
-require_once "model/Varos.php";
-require_once "model/Kovetelmeny.php";
+require_once $_SERVER['DOCUMENT_ROOT']. "/db/Database.php";
+require_once $_SERVER['DOCUMENT_ROOT']. "/dao/AllasDAO.php";
+require_once $_SERVER['DOCUMENT_ROOT']. "/model/Allas.php";
+require_once $_SERVER['DOCUMENT_ROOT']. "/model/Ceg.php";
+require_once $_SERVER['DOCUMENT_ROOT']. "/model/AllasTipus.php";
+require_once $_SERVER['DOCUMENT_ROOT']. "/model/Varos.php";
+require_once $_SERVER['DOCUMENT_ROOT']. "/model/Kovetelmeny.php";
 
 class AllasDAOImpl implements AllasDAO
 {

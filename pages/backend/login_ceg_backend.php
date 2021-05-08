@@ -3,9 +3,6 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-require_once "dao/CegDAOImpl.php";
-require_once "dao/CegDAO.php";
-
 $cegDAO = new CegDAOImpl();
 
 if (isset($_POST['login_ceg'])) {
@@ -24,7 +21,7 @@ if (isset($_POST['login_ceg'])) {
         $ceg = $cegDAO->getCeg($email);
         if ($ceg && $ceg->isPasswordValid($password)) {
             AuthController::getInstance()->setCurrentCeg($ceg);
-            header('location: index.php');
+            header('location: /index.php');
         } else {
             array_push($errors, "Rossz e-mail/jelszó kombináció");
         }

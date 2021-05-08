@@ -1,8 +1,8 @@
 <?php
 
-require_once "db/Database.php";
-require_once "dao/CegDAO.php";
-require_once "model/Ceg.php";
+require_once $_SERVER['DOCUMENT_ROOT']. '/db/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/dao/CegDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/model/Ceg.php';
 
 class CegDAOImpl implements CegDAO
 {

@@ -1,8 +1,5 @@
 <?php
 
-require_once "dao/AllasDAOImpl.php";
-require_once "dao/FelhasznaloDAOImpl.php";
-require_once 'controller/AllasController.php';
 $errors = [];
 if (isset($_POST['jelentkezes_torles'])) {
     $allasID = $_POST['allasID'];
@@ -50,7 +47,7 @@ if (isset($_POST['user_modositas'])) {
 
         if ($userDAO->updateFelhasznalo($userID, $user)) {
             AuthController::getInstance()->setCurrentFelhasznalo($user);
-            header('location: user_adatlap.php');
+            header('location: /pages/user_adatlap.php');
         }
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
-require_once 'VarosDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/db/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/dao/VarosDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/model/Varos.php';
 
 class VarosDAOImpl implements VarosDAO
 {

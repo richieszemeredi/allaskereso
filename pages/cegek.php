@@ -6,14 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-<?php include 'navigation.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT']. '/pages/navigation.php'; ?>
 <div class="container">
 
 <?php
-
-    require_once "db/Database.php";
-    require_once "dao/CegDAOImpl.php";
-
     $conn = Database::getInstance()->getConnection();
     buildCegTable();
 

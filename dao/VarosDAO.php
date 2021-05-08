@@ -1,7 +1,5 @@
 <?php
 
-require_once "model/Varos.php";
-
 interface VarosDAO
 {
 

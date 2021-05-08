@@ -1,7 +1,7 @@
 <?php
 
-require_once 'model/Ceg.php';
-require_once 'model/Felhasznalo.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/model/Ceg.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/model/Felhasznalo.php';
 
 if (!isset($_SESSION)) {
     session_start();

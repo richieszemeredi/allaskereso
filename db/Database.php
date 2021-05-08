@@ -33,7 +33,7 @@ class Database
 
     private function __construct()
     {
-        $ini = parse_ini_file("resources/db.ini");
+        $ini = parse_ini_file("../resources/db.ini");
         $this->hostname = $ini['hostname'];
         $this->port = $ini['port'];
         $this->username = $ini['username'];
@@ -51,7 +51,7 @@ class Database
 
     private function executeSQLFile($file) {
         $conn = $this->getConnection();
-        $sql_arr = explode(";", file_get_contents('resources/'.$file));
+        $sql_arr = explode(";", file_get_contents('../resources/'.$file));
         foreach ($sql_arr as $sql) {
             $stid = oci_parse($conn, $sql);
             oci_execute($stid, OCI_NO_AUTO_COMMIT);

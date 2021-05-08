@@ -1,8 +1,5 @@
 <?php
 
-require_once "dao/AllasDAOImpl.php";
-require_once 'controller/AllasController.php';
-
 if (isset($_POST['allas_jelentkezes'])) {
     $allasID = $_POST['allasID'];
     $allasDAO = new AllasDAOImpl();
@@ -12,7 +9,7 @@ if (isset($_POST['allas_jelentkezes'])) {
         $user = AuthController::getInstance()->getCurrentFelhasznalo();
         if (!$allasController->hasJelentkezes($allas, $user)) {
             $allasController->allasJelentkezes($allas, $user);
-            header('location: allasok.php');
+            header('location: /pages/allasok.php');
         } else {
             alert("Erre az állásra már jelentkeztél!");
         }

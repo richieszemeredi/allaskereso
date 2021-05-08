@@ -1,9 +1,5 @@
 <?php
 
-require_once "dao/AllasDAOImpl.php";
-require_once "dao/FelhasznaloDAOImpl.php";
-require_once "dao/CegDAOImpl.php";
-require_once 'controller/AllasController.php';
 $errors = [];
 if (isset($_POST['jelentkezes_torles'])) {
     $allasID = $_POST['allasID'];
@@ -46,7 +42,7 @@ if (isset($_POST['ceg_modositas'])) {
         $ceg->setEmail($ujEmail);
         $cegDAO->updateCeg($cegID, $ceg);
         AuthController::getInstance()->setCurrentCeg($ceg);
-        header('location: cegAdatok.php');
+        header('location: /pages/cegAdatok.php');
     }
 }
 

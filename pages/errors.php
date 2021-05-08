@@ -1,4 +1,9 @@
 <?php
+
+    if (!isset($errors)) {
+        $errors = [];
+    }
+
     if (count($errors) > 0) : ?>
     <div class="container text-center mt-5">
         <div class="alert alert-danger">

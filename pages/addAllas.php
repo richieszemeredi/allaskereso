@@ -12,8 +12,8 @@
 <body>
 <?php
 
-include 'navigation.php';
-include 'addAllas_backend.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/navigation.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/backend/addAllas_backend.php';
 
 $allasTipusDAO = new AllasTipusDAOImpl();
 $allasTipusok = $allasTipusDAO->getAllAllasTipus();
@@ -46,6 +46,6 @@ $allasTipusok = $allasTipusDAO->getAllAllasTipus();
         <button name="createAllas" type="submit" class="mt-2 btn btn-primary">Álláshírdetés feladása</button>
     </form>
 </div>
-<?php include('errors.php'); ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT']. '/pages/errors.php'; ?>
 </body>
 </html>

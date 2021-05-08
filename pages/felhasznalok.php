@@ -9,12 +9,10 @@
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
 <body>
-<?php include 'navigation.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT']. '/pages/navigation.php'; ?>
 <div class="container">
 
 <?php
-
-    require_once "dao/FelhasznaloDAOImpl.php";
 
     buildFelhasznaloTable();
 

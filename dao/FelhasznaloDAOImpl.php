@@ -1,8 +1,8 @@
 <?php
 
-require_once "db/Database.php";
-require_once "dao/FelhasznaloDAO.php";
-require_once "model/Felhasznalo.php";
+require_once $_SERVER['DOCUMENT_ROOT']. '/db/Database.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/dao/FelhasznaloDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/model/Felhasznalo.php';
 
 class FelhasznaloDAOImpl implements FelhasznaloDAO
 {

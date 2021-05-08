@@ -30,7 +30,7 @@ li a:hover:not(.active) {
 h1{padding-bottom: 10px}
 body{
     background-color: #e59c53;
-    background-image: url("jobs2.png");
+    background-image: url("../images/jobs2.png");
     background-size:cover ;
     background-repeat: no-repeat;
 }

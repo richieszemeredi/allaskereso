@@ -3,9 +3,6 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-require_once "db/Database.php";
-require_once "dao/CegDAOImpl.php";
-
 $errors = array();
 
 $db = Database::getInstance()->getConnection();
@@ -44,7 +41,7 @@ if (isset($_POST['reg_ceg'])) {
 
         if ($ceg) {
             $_SESSION['ceg'] = serialize($ceg);
-            header('location: index.php');
+            header('location: /index.php');
         }
     }
 }

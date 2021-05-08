@@ -3,9 +3,6 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-require_once "dao/FelhasznaloDAOImpl.php";
-require_once "dao/FelhasznaloDAO.php";
-
 $felhasznaloDAO = new FelhasznaloDAOImpl();
 $errors = [];
 
@@ -26,7 +23,7 @@ if (isset($_POST['login_user'])) {
         $felhasznalo = $felhasznaloDAO->getFelhasznalo($username);
         if ($felhasznalo && $felhasznalo->isPasswordValid($password)) {
             AuthController::getInstance()->setCurrentFelhasznalo($felhasznalo);
-            header('location: index.php');
+            header('location: /index.php');
         } else {
             array_push($errors, "Rossz felhasználónév/jelszó kombináció");
         }

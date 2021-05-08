@@ -10,18 +10,13 @@
 </head>
 <body>
 <?php
-session_start();
-require_once 'navigation.php';
-require_once 'controller/AllasController.php';
+
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/navigation.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/backend/allasok_backend.php';
 
 ?>
 <div class="container">
     <?php
-
-    require_once "db/Database.php";
-    require_once "dao/FelhasznaloDAOImpl.php";
-    require_once "dao/AllasDAOImpl.php";
-    require_once 'allasok_backend.php';
 
     $conn = Database::getInstance()->getConnection();
     buildAllasTable();

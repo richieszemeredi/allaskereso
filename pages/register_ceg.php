@@ -8,8 +8,8 @@
 </head>
 <body>
 <?php
-include 'navigation.php';
-include "register_ceg_backend.php";
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/navigation.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/backend/register_ceg_backend.php';
 ?>
 <div class="container">
 <h2>Regisztráció cégként</h2>

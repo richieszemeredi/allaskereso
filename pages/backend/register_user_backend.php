@@ -3,9 +3,6 @@ if (!isset($_SESSION)) {
     session_start();
 }
 
-require_once "db/Database.php";
-require_once "dao/FelhasznaloDAOImpl.php";
-
 $errors = [];
 
 $db = Database::getInstance()->getConnection();
@@ -47,7 +44,7 @@ if (isset($_POST['reg_user'])) {
 
         if ($felhasznalo) {
             $_SESSION['felhasznalo'] = serialize($felhasznalo);
-            header('location: index.php');
+            header('location: /index.php');
         }
     }
 }

@@ -1,10 +1,7 @@
 <?php
 
-require_once 'navigation.php';
-require_once 'dao/CegDAOImpl.php';
-require_once 'dao/FelhasznaloDAOImpl.php';
-require_once 'controller/AllasController.php';
-require_once 'user_adatlap_backend.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/navigation.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/pages/backend/user_adatlap_backend.php';
 
 $cegDAO = new CegDAOImpl();
 $userDAO = new FelhasznaloDAOImpl();
